@@ -1,0 +1,72 @@
+# compiled output
+/dist
+/node_modules
+
+# logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# envs
+.env*
+!.env.example
+
+# OS
+.DS_Store
+
+# tests
+*.lcov
+coverage
+/coverage
+/.nyc_output
+
+# ides
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# typeScript cache
+*.tsbuildinfo
+
+# optional npm cache directory
+.npm
+
+# optional eslint cache
+.eslintcache
+
+# microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# optional REPL history
+.node_repl_history
+
+# output of 'npm pack'
+*.tgz
+
+# data db containers
+data/mongodb/*

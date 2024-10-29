@@ -1,0 +1,38 @@
+version: '3.8'
+name: mkg-bank
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: kg-mongodb-container
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - ./data/mongodb:/data/db
+    networks:
+      - mkg-network
+
+  api:
+    container_name: kg-api-container
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: development
+    ports:
+      - 4000:4000
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/home/node
+      - /home/node/node_modules
+    env_file:
+      - ./.env
+    networks:
+      - mkg-network
+
+networks:
+  mkg-network:
+    driver: bridge
