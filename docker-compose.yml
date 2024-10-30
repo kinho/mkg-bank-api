@@ -4,7 +4,7 @@ name: mkg-bank
 services:
   mongodb:
     image: mongo:latest
-    container_name: kg-mongodb-container
+    container_name: mkg-mongodb-container
     ports:
       - 27017:27017
     environment:
@@ -16,7 +16,7 @@ services:
       - mkg-network
 
   api:
-    container_name: kg-api-container
+    container_name: mkg-api-container
     build:
       context: .
       dockerfile: ./Dockerfile

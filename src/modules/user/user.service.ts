@@ -1,4 +1,10 @@
-import User from './user.schema'
+import {
+  User,
+  UserModel,
+  GetUsersArgs,
+  CreateUserArgs,
+  GetUsersResponse
+} from './'
 
 export const getUsers = async ({
   name,
@@ -6,7 +12,7 @@ export const getUsers = async ({
   role,
   limit,
   offset,
-}) => {
+}: GetUsersArgs): Promise<GetUsersResponse> => {
   const options = {}
 
   if (name) options['name'] = name
@@ -16,33 +22,37 @@ export const getUsers = async ({
   limit = limit || 10
   offset = offset || 0
 
-  const users = await User.find(options)
+  const users = await UserModel.find(options)
     .skip(offset)
     .limit(limit)
 
-  const count = await User.countDocuments(options)
+  const count = await UserModel.countDocuments(options)
 
-  return { count, users: users || [] }
+  return { count, users }
 }
 
-export const createUser = async ({ 
+export const getUser = async (id: string): Promise<User | null> => {
+  return UserModel.findById(id)
+}
+
+export const createUser = async ({
   name,
   email,
   password,
   role,
-}) => {
+}: CreateUserArgs): Promise<User | null> => {
   try {
-    const newUser = new User({ 
+    const newUser = new UserModel({
       name,
       email,
       password,
       role: role || 'DEFAULT'
-    })
+    } as User)
     const createdUser = await newUser.save()
     return createdUser
 
   } catch (error) {
-    console.error('error', error)
-    return {}
+    console.error('createUser error', error)
+    return null
   }
 }

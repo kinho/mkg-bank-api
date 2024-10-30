@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import 'reflect-metadata'
 import * as http from 'http'
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
@@ -6,11 +7,11 @@ import cors from '@koa/cors'
 import { ApolloServer } from '@apollo/server'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import { koaMiddleware } from '@as-integrations/koa'
-import { makeExecutableSchema } from '@graphql-tools/schema'
+import { buildSchema } from 'type-graphql'
 
 import { connectToDatabase } from './config/mongodb'
 
-import { User, UserQuery, UserMutation, UserResolvers } from './modules/user'
+import { UserResolver } from './modules/user'
 
 const { NODE_ENV, PORT: ENV_PORT } = process.env
 const PORT: number = parseInt(`${ENV_PORT}`) || 4000;
@@ -24,11 +25,10 @@ const PORT: number = parseInt(`${ENV_PORT}`) || 4000;
   const app = new Koa()
   const httpServer = http.createServer(app.callback())
 
-  const typeDefs = [User, UserQuery, UserMutation]
-  const resolvers = [UserResolvers]
+  const resolvers = [UserResolver] as const
 
   const server = new ApolloServer({
-    schema: makeExecutableSchema({ typeDefs, resolvers }),
+    schema: await buildSchema({ resolvers }),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   })
 
