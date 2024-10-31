@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { ArgsType, Field, ID, InputType, ObjectType } from 'type-graphql'
+
 import { Company } from './'
 
 @InputType()

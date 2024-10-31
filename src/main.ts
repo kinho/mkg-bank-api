@@ -1,25 +1,25 @@
 import 'dotenv/config'
 import 'reflect-metadata'
 import * as http from 'http'
-import Koa from 'koa'
-import bodyParser from 'koa-bodyparser'
-import cors from '@koa/cors'
+
 import { ApolloServer } from '@apollo/server'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import { koaMiddleware } from '@as-integrations/koa'
+import cors from '@koa/cors'
+import Koa from 'koa'
+import bodyParser from 'koa-bodyparser'
 import { buildSchema } from 'type-graphql'
 
 import { connectToDatabase } from '@config/mongodb'
-
 import { CompanyResolver } from '@modules/company'
 import { UserResolver } from '@modules/user'
 
 const resolvers = [UserResolver, CompanyResolver] as const
 
 const { NODE_ENV, PORT: ENV_PORT } = process.env
-const PORT: number = parseInt(`${ENV_PORT}`) || 4000;
+const PORT: number = parseInt(`${ENV_PORT}`) || 4000
 
-(async () => {
+;(async () => {
   console.info()
   await connectToDatabase()
 
@@ -41,9 +41,11 @@ const PORT: number = parseInt(`${ENV_PORT}`) || 4000;
   app.use(
     koaMiddleware(server, {
       context: async ({ ctx }) => ({ token: ctx.headers?.token }),
-    })
+    }),
   )
 
   await httpServer.listen(PORT)
-  console.info(`🚀  Server ready at http://localhost:${PORT}/graphql on ${NODE_ENV}`)
+  console.info(
+    `🚀  Server ready at http://localhost:${PORT}/graphql on ${NODE_ENV}`,
+  )
 })()

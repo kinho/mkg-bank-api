@@ -1,10 +1,10 @@
 import {
-  User,
-  UserModel,
+  CreateUserArgs,
   ListUsersArgs,
   ListUsersResponse,
-  CreateUserArgs,
   UpdateUserArgs,
+  User,
+  UserModel,
 } from './'
 
 export const getUser = async (id: string): Promise<User | null> => {
@@ -29,9 +29,7 @@ export const listUsers = async ({
   limit = limit || 10
   offset = offset || 0
 
-  const data = await UserModel.find(options)
-    .skip(offset)
-    .limit(limit)
+  const data = await UserModel.find(options).skip(offset).limit(limit)
 
   const count = await UserModel.countDocuments(options)
 
@@ -49,12 +47,11 @@ export const createUser = async ({
       name,
       email,
       password,
-      role: role || 'DEFAULT'
+      role: role || 'DEFAULT',
     } as User)
 
     const createdUser = await newUser.save()
     return createdUser
-
   } catch (error) {
     console.error('createUser error', error)
     return null
@@ -82,7 +79,6 @@ export const updateUser = async ({
     await user.save()
 
     return user
-
   } catch (error) {
     console.error('updateUser error', error)
     return null

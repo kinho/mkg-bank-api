@@ -1,7 +1,24 @@
-import { Query, Resolver, Mutation, Arg, Args, FieldResolver, Root } from 'type-graphql'
+import {
+  Arg,
+  Args,
+  FieldResolver,
+  Mutation,
+  Query,
+  Resolver,
+  Root,
+} from 'type-graphql'
+
 import { Company, getCompany } from '@modules/company'
-import { CreateUserArgs, User, ListUsersArgs, ListUsersResponse, UpdateUserArgs } from './'
+
 import { createUser, getUser, listUsers, updateUser } from './user.service'
+
+import {
+  CreateUserArgs,
+  ListUsersArgs,
+  ListUsersResponse,
+  UpdateUserArgs,
+  User,
+} from './'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -13,21 +30,27 @@ export class UserResolver {
 
   @Query(() => User)
   async getUser(@Arg('id', () => String) id: string): Promise<User | null> {
-      return getUser(id)
+    return getUser(id)
   }
 
   @Query(() => ListUsersResponse)
-  async listUsers(@Args(() => ListUsersArgs) args: ListUsersArgs): Promise<ListUsersResponse> {
+  async listUsers(
+    @Args(() => ListUsersArgs) args: ListUsersArgs,
+  ): Promise<ListUsersResponse> {
     return listUsers(args)
   }
 
   @Mutation(() => User)
-  async createUser(@Arg('input', () => CreateUserArgs) args: CreateUserArgs): Promise<User | null> {
+  async createUser(
+    @Arg('input', () => CreateUserArgs) args: CreateUserArgs,
+  ): Promise<User | null> {
     return createUser(args)
   }
 
   @Mutation(() => User)
-  async updateUser(@Arg('input', () => UpdateUserArgs) args: UpdateUserArgs): Promise<User | null> {
+  async updateUser(
+    @Arg('input', () => UpdateUserArgs) args: UpdateUserArgs,
+  ): Promise<User | null> {
     return updateUser(args)
   }
 }

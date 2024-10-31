@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { ArgsType, Field, ID, InputType, ObjectType } from 'type-graphql'
+
 import { User, UserRoleEnum } from './'
 
 @ArgsType()
@@ -33,7 +34,9 @@ export class ListUsersResponse {
 }
 
 @InputType()
-export class CreateUserArgs implements Pick<User, 'name' | 'email' | 'password' | 'role'> {
+export class CreateUserArgs
+  implements Pick<User, 'name' | 'email' | 'password' | 'role'>
+{
   @Field(() => String)
   name!: string
 

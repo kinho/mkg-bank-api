@@ -17,7 +17,6 @@ export async function connectToDatabase() {
     await connect(URI, { dbName: NAME, retryWrites: true, w: 'majority' })
 
     console.info(`🚀  Successfully connected to MongoDB at ${HOST}:${PORT}`)
-
   } catch (error) {
     console.error('Error connecting to MongoDB:', error)
     throw new Error(`Error connecting to MongoDB: ${error}`)

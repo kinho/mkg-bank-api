@@ -1,6 +1,6 @@
+import { getModelForClass, prop } from '@typegoose/typegoose'
 import { ObjectId } from 'mongodb'
 import { Field, ID, ObjectType } from 'type-graphql'
-import { prop, getModelForClass } from '@typegoose/typegoose'
 
 @ObjectType()
 export class Company {
