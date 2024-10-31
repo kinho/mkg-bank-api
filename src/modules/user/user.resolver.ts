@@ -1,7 +1,7 @@
 import { Query, Resolver, Mutation, Arg, Args, FieldResolver, Root } from 'type-graphql'
+import { Company, getCompany } from '@modules/company'
 import { CreateUserArgs, User, ListUsersArgs, ListUsersResponse, UpdateUserArgs } from './'
 import { createUser, getUser, listUsers, updateUser } from './user.service'
-import { Company, getCompany } from '../company'
 
 @Resolver(() => User)
 export class UserResolver {

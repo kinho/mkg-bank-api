@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb'
 import { Field, ID, ObjectType } from 'type-graphql'
 import { prop, getModelForClass, Ref } from '@typegoose/typegoose'
+import { Company } from '@modules/company'
 import { UserRoleEnum } from './user.enum'
-import { Company } from '../company'
 
 @ObjectType()
 export class User {

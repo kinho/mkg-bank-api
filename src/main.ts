@@ -9,10 +9,10 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { koaMiddleware } from '@as-integrations/koa'
 import { buildSchema } from 'type-graphql'
 
-import { connectToDatabase } from './config/mongodb'
+import { connectToDatabase } from '@config/mongodb'
 
-import { CompanyResolver } from './modules/company'
-import { UserResolver } from './modules/user'
+import { CompanyResolver } from '@modules/company'
+import { UserResolver } from '@modules/user'
 
 const resolvers = [UserResolver, CompanyResolver] as const
 
