@@ -3,8 +3,7 @@ import { ObjectId } from 'mongodb'
 import { Field, ID, ObjectType } from 'type-graphql'
 
 import { Company } from '@modules/company'
-
-import { UserRoleEnum } from './user.enum'
+import { UserRoleEnum } from '@modules/user'
 
 @ObjectType()
 export class User {

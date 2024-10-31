@@ -9,16 +9,17 @@ import {
 } from 'type-graphql'
 
 import { Company, getCompany } from '@modules/company'
-
-import { createUser, getUser, listUsers, updateUser } from './user.service'
-
 import {
   CreateUserArgs,
   ListUsersArgs,
   ListUsersResponse,
   UpdateUserArgs,
   User,
-} from './'
+  createUser,
+  getUser,
+  listUsers,
+  updateUser,
+} from '@modules/user'
 
 @Resolver(() => User)
 export class UserResolver {

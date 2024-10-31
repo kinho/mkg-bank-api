@@ -1,19 +1,16 @@
 import { Arg, Args, Mutation, Query, Resolver } from 'type-graphql'
 
 import {
-  createCompany,
-  getCompany,
-  listCompanies,
-  updateCompany,
-} from './company.service'
-
-import {
   Company,
   CreateCompanyArgs,
   ListCompaniesArgs,
   ListCompaniesResponse,
   UpdateCompanyArgs,
-} from './'
+  createCompany,
+  getCompany,
+  listCompanies,
+  updateCompany,
+} from '@modules/company'
 
 @Resolver(() => Company)
 export class CompanyResolver {

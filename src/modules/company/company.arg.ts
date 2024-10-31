@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { ArgsType, Field, ID, InputType, ObjectType } from 'type-graphql'
 
-import { Company } from './'
+import { Company } from '@modules/company'
 
 @InputType()
 export class CreateCompanyArgs implements Pick<Company, 'name'> {

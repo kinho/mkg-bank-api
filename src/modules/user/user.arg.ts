@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { ArgsType, Field, ID, InputType, ObjectType } from 'type-graphql'
 
-import { User, UserRoleEnum } from './'
+import { User, UserRoleEnum } from '@modules/user'
 
 @ArgsType()
 export class ListUsersArgs {

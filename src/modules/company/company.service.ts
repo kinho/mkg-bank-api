@@ -5,7 +5,7 @@ import {
   ListCompaniesArgs,
   ListCompaniesResponse,
   UpdateCompanyArgs,
-} from './'
+} from '@modules/company'
 
 export const getCompany = async (id: string): Promise<Company | null> => {
   return CompanyModel.findById(id)

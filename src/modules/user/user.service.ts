@@ -5,7 +5,7 @@ import {
   UpdateUserArgs,
   User,
   UserModel,
-} from './'
+} from '@modules/user'
 
 export const getUser = async (id: string): Promise<User | null> => {
   return UserModel.findById(id)
