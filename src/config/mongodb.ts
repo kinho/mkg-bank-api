@@ -11,12 +11,12 @@ const {
 
 export async function connectToDatabase() {
   try {
-    console.info('⏳ Connecting to MongoDB...')
+    console.info('⏳  Connecting to MongoDB...')
 
     const URI = `mongodb://${USER}:${PASS}@${HOST}:${PORT}`
     await connect(URI, { dbName: NAME, retryWrites: true, w: 'majority' })
 
-    console.info(`🚀 Successfully connected to MongoDB at ${HOST}:${PORT}`)
+    console.info(`🚀  Successfully connected to MongoDB at ${HOST}:${PORT}`)
 
   } catch (error) {
     console.error('Error connecting to MongoDB:', error)

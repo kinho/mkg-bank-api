@@ -11,21 +11,22 @@ import { buildSchema } from 'type-graphql'
 
 import { connectToDatabase } from './config/mongodb'
 
+import { CompanyResolver } from './modules/company'
 import { UserResolver } from './modules/user'
+
+const resolvers = [UserResolver, CompanyResolver] as const
 
 const { NODE_ENV, PORT: ENV_PORT } = process.env
 const PORT: number = parseInt(`${ENV_PORT}`) || 4000;
 
 (async () => {
   console.info()
-  console.info('⏳ Starting server...')
-
   await connectToDatabase()
+
+  console.info('⏳  Starting server...')
 
   const app = new Koa()
   const httpServer = http.createServer(app.callback())
-
-  const resolvers = [UserResolver] as const
 
   const server = new ApolloServer({
     schema: await buildSchema({ resolvers }),
@@ -43,7 +44,6 @@ const PORT: number = parseInt(`${ENV_PORT}`) || 4000;
     })
   )
 
-  httpServer.listen(PORT, () =>
-    console.info(`🚀 Server ready at http://localhost:${PORT}/graphql on ${NODE_ENV}`)
-  )
+  await httpServer.listen(PORT)
+  console.info(`🚀  Server ready at http://localhost:${PORT}/graphql on ${NODE_ENV}`)
 })()
