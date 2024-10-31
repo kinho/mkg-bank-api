@@ -9,11 +9,10 @@ ENV NODE_ENV production
 USER node
 WORKDIR /home/node
 
-COPY package*.json ./
+COPY --chown=node:node package*.json ./
 
-RUN npm ci --force -s
-
-COPY . .
+RUN npm ci --force -s --only=production
+RUN npm prune --omit=dev --force
 
 CMD ["npm", "run", "start"]
 
@@ -28,10 +27,9 @@ ENV NODE_ENV development
 USER node
 WORKDIR /home/node
 
-COPY package*.json ./
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node . .
 
-RUN npm ci --force -s
-
-COPY . .
+RUN npm i --force -s
 
 CMD ["npm", "run", "start:dev"]
