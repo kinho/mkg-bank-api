@@ -1,4 +1,3 @@
-import 'reflect-metadata'
 import { ObjectId } from 'mongodb'
 
 import {
@@ -13,7 +12,7 @@ import {
   updateCompany,
 } from '@modules/company'
 
-jest.mock('../../company/company.service')
+jest.mock('@modules/company/company.service')
 
 const mockCompany: Company = {
   _id: new ObjectId('64601311c4827118278a2d8b'),
@@ -93,5 +92,16 @@ describe('CompanyResolver', () => {
     const result = await resolver.updateCompany(args)
     expect(result).toBeNull()
     expect(updateCompany).toHaveBeenCalledWith(args)
+  })
+
+  it('should list companies with empty filters', async () => {
+    const args: ListCompaniesArgs = { limit: 10, offset: 0 }
+    ;(listCompanies as jest.Mock).mockResolvedValue({
+      count: 1,
+      data: [mockCompany],
+    })
+    const result = await resolver.listCompanies(args)
+    expect(result).toEqual({ count: 1, data: [mockCompany] })
+    expect(listCompanies).toHaveBeenCalledWith(args)
   })
 })

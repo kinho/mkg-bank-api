@@ -6,6 +6,7 @@ import {
   ListCompaniesResponse,
   UpdateCompanyArgs,
 } from '@modules/company'
+import { throwError } from '@modules/error'
 
 export const getCompany = async (id: string): Promise<Company | null> => {
   return CompanyModel.findById(id)
@@ -16,15 +17,13 @@ export const listCompanies = async ({
   limit,
   offset,
 }: ListCompaniesArgs): Promise<ListCompaniesResponse> => {
-  const options = {}
-
-  if (name) options['name'] = name
-
   limit = limit || 10
   offset = offset || 0
 
-  const data = await CompanyModel.find(options).skip(offset).limit(limit)
+  const options = {}
+  if (name) options['name'] = { $eq: name }
 
+  const data = await CompanyModel.find(options).skip(offset).limit(limit)
   const count = await CompanyModel.countDocuments(options)
 
   return { count, data }
@@ -39,8 +38,7 @@ export const createCompany = async ({
     const createdCompany = await newCompany.save()
     return createdCompany
   } catch (error) {
-    console.error('createCompany error', error)
-    return null
+    return throwError('INTERNAL_ERROR')
   }
 }
 
@@ -50,7 +48,7 @@ export const updateCompany = async ({
 }: UpdateCompanyArgs): Promise<Company | null> => {
   try {
     const company = await CompanyModel.findById(_id)
-    if (!company) return null
+    if (!company) return throwError('NOT_FOUND')
 
     if (name) company.name = name
 
@@ -58,7 +56,6 @@ export const updateCompany = async ({
 
     return company
   } catch (error) {
-    console.error('updateCompany error', error)
-    return null
+    return throwError('INTERNAL_ERROR')
   }
 }

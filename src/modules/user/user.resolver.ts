@@ -1,13 +1,17 @@
 import {
   Arg,
   Args,
+  Ctx,
   FieldResolver,
   Mutation,
   Query,
   Resolver,
   Root,
+  UseMiddleware,
 } from 'type-graphql'
 
+import { UserPayload } from '@modules/auth'
+import { requireAuth } from '@modules/auth/auth.middleware'
 import { Company, getCompany } from '@modules/company'
 import {
   CreateUserArgs,
@@ -48,10 +52,12 @@ export class UserResolver {
     return createUser(args)
   }
 
+  @UseMiddleware(requireAuth)
   @Mutation(() => User)
   async updateUser(
+    @Ctx('user') user: UserPayload,
     @Arg('input', () => UpdateUserArgs) args: UpdateUserArgs,
   ): Promise<User | null> {
-    return updateUser(args)
+    return updateUser(args, user)
   }
 }

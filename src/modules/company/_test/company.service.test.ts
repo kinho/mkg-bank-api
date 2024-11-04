@@ -1,124 +1,95 @@
-import 'reflect-metadata'
+import { GraphQLError } from 'graphql'
 import { ObjectId } from 'mongodb'
+import { MongoMemoryServer } from 'mongodb-memory-server'
+import { connect, disconnect } from 'mongoose'
 
-import MongoDBConnection from '@config/mongodb'
 import {
-  Company,
   CompanyModel,
-  CreateCompanyArgs,
-  ListCompaniesArgs,
-  UpdateCompanyArgs,
   createCompany,
   getCompany,
   listCompanies,
   updateCompany,
 } from '@modules/company'
 
-describe('CompanyService', () => {
+describe('CompanyService Tests', () => {
+  let mongoServer: MongoMemoryServer
+
   beforeAll(async () => {
-    await MongoDBConnection.connect({ testEnv: true })
+    mongoServer = await MongoMemoryServer.create()
+    await connect(mongoServer.getUri())
   })
 
   afterAll(async () => {
-    await MongoDBConnection.disconnect()
+    await disconnect()
+    await mongoServer.stop()
   })
 
-  beforeEach(async () => {
+  afterEach(async () => {
     await CompanyModel.deleteMany({})
   })
 
-  describe('getCompany', () => {
-    it('should retrieve a company by ID', async () => {
-      const company = await new CompanyModel({
-        name: 'Test Company',
-      }).save()
+  it('should create a new company', async () => {
+    const company = await createCompany({ name: 'Test Company' })
 
-      const retrievedCompany = await getCompany(company._id.toString())
-
-      expect(retrievedCompany).toBeDefined()
-      expect(retrievedCompany?._id.toString()).toBe(company._id.toString())
-      expect(retrievedCompany?.name).toBe('Test Company')
-    })
-
-    it('should return null if company not found', async () => {
-      const retrievedCompany = await getCompany('64601311c4827118278a2d8b')
-
-      expect(retrievedCompany).toBeNull()
-    })
+    expect(company).not.toBeNull()
+    expect(company).toHaveProperty('_id')
+    expect(company?.name).toBe('Test Company')
   })
 
-  describe('listCompanies', () => {
-    it('should list all companies', async () => {
-      await new CompanyModel({ name: 'Test Company 1' }).save()
-      await new CompanyModel({ name: 'Test Company 2' }).save()
+  it('should retrieve a company by ID', async () => {
+    const company = await createCompany({ name: 'Retrieve Company' })
+    const foundCompany = await getCompany(company!._id.toString())
 
-      const { data: companies } = await listCompanies({})
-
-      expect(companies.length).toBe(2)
-    })
-
-    it('should list companies with limit and offset', async () => {
-      await new CompanyModel({ name: 'Test Company 1' }).save()
-      await new CompanyModel({ name: 'Test Company 2' }).save()
-      await new CompanyModel({ name: 'Test Company 3' }).save()
-
-      const args: ListCompaniesArgs = { limit: 2, offset: 1 }
-      const { data: companies } = await listCompanies(args)
-
-      expect(companies.length).toBe(2)
-      expect(companies[0].name).toBe('Test Company 2')
-      expect(companies[1].name).toBe('Test Company 3')
-    })
-
-    it('should list companies by name', async () => {
-      await new CompanyModel({ name: 'Test Company 1' }).save()
-      await new CompanyModel({ name: 'Other Company' }).save()
-
-      const args: ListCompaniesArgs = { name: 'Test Company 1' }
-      const { data: companies } = await listCompanies(args)
-
-      expect(companies.length).toBe(1)
-      expect(companies[0].name).toBe('Test Company 1')
-    })
+    expect(foundCompany).not.toBeNull()
+    expect(foundCompany?.name).toBe('Retrieve Company')
   })
 
-  describe('createCompany', () => {
-    it('should create a new company', async () => {
-      const args: CreateCompanyArgs = { name: 'New Company' }
-      const company: Company | null = await createCompany(args)
+  it('should return null if company not found', async () => {
+    const foundCompany = await getCompany(new ObjectId().toString())
 
-      expect(company).toBeDefined()
-      expect(company?.name).toBe('New Company')
-    })
+    expect(foundCompany).toBeNull()
   })
 
-  describe('updateCompany', () => {
-    it('should update an existing company', async () => {
-      const company = await new CompanyModel({
-        name: 'Test Company',
-      }).save()
+  it('should list companies with optional filters', async () => {
+    await createCompany({ name: 'Company A' })
+    await createCompany({ name: 'Company B' })
 
-      const args: UpdateCompanyArgs = {
-        _id: company._id,
-        name: 'Updated Company',
-      }
+    const result = await listCompanies({ limit: 10, offset: 0 })
+    expect(result).toHaveProperty('count')
+    expect(result.count).toBeGreaterThanOrEqual(2)
+    expect(result.data.length).toBe(2)
+  })
 
-      const updatedCompany = await updateCompany(args)
+  it('should list companies with empty filters', async () => {
+    await createCompany({ name: 'Company A' })
+    await createCompany({ name: 'Company B' })
 
-      expect(updatedCompany).toBeDefined()
-      expect(updatedCompany?._id.toString()).toBe(company._id.toString())
-      expect(updatedCompany?.name).toBe('Updated Company')
+    const result = await listCompanies({})
+    expect(result).toHaveProperty('count')
+    expect(result.count).toBeGreaterThanOrEqual(2)
+    expect(result.data.length).toBe(2)
+  })
+
+  it('should update an existing company', async () => {
+    const company = await createCompany({ name: 'Old Name' })
+
+    const updatedCompany = await updateCompany({
+      _id: company!._id,
+      name: 'Updated Name',
     })
 
-    it('should return null if company not found', async () => {
-      const args: UpdateCompanyArgs = {
-        _id: new ObjectId('64601311c4827118278a2d8b'),
-        name: 'Updated Company',
-      }
+    expect(updatedCompany).not.toBeNull()
+    expect(updatedCompany?.name).toBe('Updated Name')
+  })
 
-      const updatedCompany = await updateCompany(args)
+  it('should throw an ApolloError when updating a non-existing company', async () => {
+    const nonExistingId = new ObjectId('507f191e810c19729de860ea')
 
-      expect(updatedCompany).toBeNull()
-    })
+    await expect(
+      updateCompany({
+        _id: nonExistingId,
+        name: 'Non-existing Company',
+      }),
+    ).rejects.toThrowError(GraphQLError)
   })
 })

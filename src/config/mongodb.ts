@@ -1,12 +1,8 @@
 import 'dotenv/config'
-import { Mongoose, connect, disconnect } from 'mongoose'
-
-type connectToDatabaseOption = {
-  testEnv?: boolean
-}
+import { Mongoose, connect } from 'mongoose'
 
 const {
-  MONGODB_HOST: ENV_HOST,
+  MONGODB_HOST: HOST,
   MONGODB_PORT: PORT,
   MONGODB_NAME: NAME,
   MONGODB_USER: USER,
@@ -16,27 +12,16 @@ const {
 class MongoDBConnection {
   private static connection: Mongoose | null = null
 
-  public static async connect(
-    option?: connectToDatabaseOption,
-  ): Promise<Mongoose> {
-    if (this.connection) {
-      return this.connection
-    }
+  public static async connect(): Promise<Mongoose> {
+    if (this.connection) return this.connection
 
     try {
-      if (!option?.testEnv) console.info('⏳  Connecting to MongoDB...')
+      console.info('⏳  Connecting to MongoDB...')
 
-      const HOST = option?.testEnv ? '0.0.0.0' : ENV_HOST
-      const URI = `mongodb://${USER}:${PASS}@${HOST}:${PORT}`
-      this.connection = await connect(URI, {
-        dbName: NAME,
-        retryWrites: true,
-        w: 'majority',
-      })
+      const URI: string = `mongodb://${USER}:${PASS}@${HOST}:${PORT}`
+      this.connection = await connect(URI, { dbName: NAME })
 
-      if (!option?.testEnv) {
-        console.info(`🚀  Successfully connected to MongoDB at ${HOST}:${PORT}`)
-      }
+      console.info(`🚀  Successfully connected to MongoDB at ${HOST}:${PORT}`)
 
       return this.connection
     } catch (error) {
@@ -46,15 +31,15 @@ class MongoDBConnection {
   }
 
   public static async disconnect(): Promise<void> {
-    if (this.connection) {
-      try {
-        await disconnect()
-      } catch (error) {
-        console.error('Error disconnecting from MongoDB:', error)
-        throw new Error(`Error disconnecting from MongoDB: ${error}`)
-      } finally {
-        this.connection = null
-      }
+    if (!this.connection) return
+
+    try {
+      await this.connection?.disconnect()
+    } catch (error) {
+      console.error('Error disconnecting from MongoDB:', error)
+      throw new Error(`Error disconnecting from MongoDB: ${error}`)
+    } finally {
+      this.connection = null
     }
   }
 }

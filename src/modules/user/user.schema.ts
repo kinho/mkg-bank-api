@@ -41,3 +41,9 @@ export class User {
 }
 
 export const UserModel = getModelForClass(User)
+
+export type PartialUser = Omit<User, '_id' | 'createdAt' | 'company'> & {
+  _id?: string
+  createdAt?: Date
+  company?: string
+}

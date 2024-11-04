@@ -12,7 +12,7 @@
     "baseUrl": "./",
     "paths": {
       "@config/*": ["./src/config/*"],
-      "@modules/*": ["./src/modules/*"],
+      "@modules/*": ["./src/modules/*"]
     }
   },
   "include": ["src/**/*.ts"],
