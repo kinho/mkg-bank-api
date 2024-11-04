@@ -7,6 +7,7 @@ import {
   ListCompaniesResponse,
   UpdateCompanyArgs,
   createCompany,
+  deleteCompany,
   getCompany,
   listCompanies,
   updateCompany,
@@ -40,5 +41,12 @@ export class CompanyResolver {
     @Arg('input', () => UpdateCompanyArgs) args: UpdateCompanyArgs,
   ): Promise<Company | null> {
     return updateCompany(args)
+  }
+
+  @Mutation(() => Company)
+  async deleteCompany(
+    @Arg('id', () => String) id: string,
+  ): Promise<Company | null> {
+    return deleteCompany(id)
   }
 }

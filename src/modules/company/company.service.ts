@@ -59,3 +59,16 @@ export const updateCompany = async ({
     return throwError('INTERNAL_ERROR')
   }
 }
+
+export const deleteCompany = async (id: string): Promise<Company | null> => {
+  try {
+    const company = await CompanyModel.findById(id)
+    if (!company) return throwError('NOT_FOUND')
+
+    await company.deleteOne()
+
+    return company
+  } catch (error) {
+    return throwError('INTERNAL_ERROR')
+  }
+}

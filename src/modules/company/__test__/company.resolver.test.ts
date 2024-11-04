@@ -7,6 +7,7 @@ import {
   ListCompaniesArgs,
   UpdateCompanyArgs,
   createCompany,
+  deleteCompany,
   getCompany,
   listCompanies,
   updateCompany,
@@ -29,6 +30,7 @@ describe('CompanyResolver', () => {
     ;(listCompanies as jest.Mock).mockReset()
     ;(createCompany as jest.Mock).mockReset()
     ;(updateCompany as jest.Mock).mockReset()
+    ;(deleteCompany as jest.Mock).mockReset()
   })
 
   it('should get a company by ID', async () => {
@@ -92,6 +94,20 @@ describe('CompanyResolver', () => {
     const result = await resolver.updateCompany(args)
     expect(result).toBeNull()
     expect(updateCompany).toHaveBeenCalledWith(args)
+  })
+
+  it('should delete a company by ID', async () => {
+    ;(deleteCompany as jest.Mock).mockResolvedValue(mockCompany)
+    const result = await resolver.deleteCompany('64601311c4827118278a2d8b')
+    expect(result).toEqual(mockCompany)
+    expect(deleteCompany).toHaveBeenCalledWith('64601311c4827118278a2d8b')
+  })
+
+  it('should return null if company deletion fails', async () => {
+    ;(deleteCompany as jest.Mock).mockResolvedValue(null)
+    const result = await resolver.deleteCompany('invalid-id')
+    expect(result).toBeNull()
+    expect(deleteCompany).toHaveBeenCalledWith('invalid-id')
   })
 
   it('should list companies with empty filters', async () => {

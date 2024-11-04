@@ -6,6 +6,7 @@ import { connect, disconnect } from 'mongoose'
 import {
   CompanyModel,
   createCompany,
+  deleteCompany,
   getCompany,
   listCompanies,
   updateCompany,
@@ -91,5 +92,24 @@ describe('CompanyService Tests', () => {
         name: 'Non-existing Company',
       }),
     ).rejects.toThrowError(GraphQLError)
+  })
+
+  it('should delete a company by ID', async () => {
+    const company = await createCompany({ name: 'Company to Delete' })
+    const deletedCompany = await deleteCompany(company!._id.toString())
+
+    expect(deletedCompany).not.toBeNull()
+    expect(deletedCompany?._id.toString()).toBe(company?._id.toString())
+
+    const result = await getCompany(company!._id.toString())
+    expect(result).toBeNull()
+  })
+
+  it('should throw an ApolloError when deleting a non-existing company', async () => {
+    const nonExistingId = new ObjectId()
+
+    await expect(deleteCompany(nonExistingId.toString())).rejects.toThrowError(
+      GraphQLError,
+    )
   })
 })
