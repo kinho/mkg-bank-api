@@ -1,0 +1,495 @@
+{
+    "item": [
+        {
+            "id": "d0e6a17d-7999-4f05-8bf1-c197b7eeb049",
+            "item": [
+                {
+                    "id": "31893237-71f0-4b55-a3f7-687859ffa8fa",
+                    "name": "createAccount",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation createAccount ($input: CreateAccountArgs!) {\n    createAccount (input: $input) {\n        _id\n        createdAt\n        number\n    }\n}",
+                                "variables": "{\n  \"input\": {\n    \"number\": \"\"\n  }\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "2a7c94d3-93cd-433b-8fe4-83958f7885ae",
+                    "name": "createCompany",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation createCompany ($input: CreateCompanyArgs!) {\n    createCompany (input: $input) {\n        _id\n        createdAt\n        name\n    }\n}",
+                                "variables": "{\n  \"input\": {\n    \"name\": \"\"\n  }\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "2e168069-5749-42a1-bfe3-48b259c4923f",
+                    "name": "createTransaction",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation createTransaction ($input: CreateTransactionArgs!) {\n    createTransaction (input: $input) {\n        _id\n        createdAt\n        number\n    }\n}",
+                                "variables": "{\n  \"input\": {\n    \"number\": \"\"\n  }\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "e52565db-ea77-41cc-a85f-ebb64293ec1c",
+                    "name": "createUser",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation createUser ($input: CreateUserArgs!) {\n    createUser (input: $input) {\n        _id\n        company {\n            _id\n            createdAt\n            name\n        }\n        createdAt\n        email\n        name\n        password\n        role\n    }\n}",
+                                "variables": "{\n  \"input\": {\n    \"email\": \"\",\n    \"name\": \"\",\n    \"password\": \"\",\n    \"role\": \"\"\n  }\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "49012867-24e4-4cc9-848e-1e4136a91ad0",
+                    "name": "deleteAccount",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation deleteAccount ($id: String!) {\n    deleteAccount (id: $id) {\n        _id\n        createdAt\n        number\n    }\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "9a398354-35cb-4338-b60c-73e1e01664a3",
+                    "name": "deleteCompany",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation deleteCompany ($id: String!) {\n    deleteCompany (id: $id) {\n        _id\n        createdAt\n        name\n    }\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "2c264299-68db-4e70-8997-d47052a6f9fe",
+                    "name": "deleteTransaction",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation deleteTransaction ($id: String!) {\n    deleteTransaction (id: $id) {\n        _id\n        createdAt\n        number\n    }\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "3f52a758-e520-47cc-bf8c-289e2677d4f4",
+                    "name": "login",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation login ($input: LoginArgs!) {\n    login (input: $input) {\n        token\n        user {\n            _id\n            company {\n                _id\n                createdAt\n                name\n            }\n            createdAt\n            email\n            name\n            password\n            role\n        }\n    }\n}",
+                                "variables": "{\n  \"input\": {\n    \"email\": \"\",\n    \"password\": \"\"\n  }\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "9cf1a896-8fc3-4047-b582-843e11d883ab",
+                    "name": "updateAccount",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation updateAccount ($input: UpdateAccountArgs!) {\n    updateAccount (input: $input) {\n        _id\n        createdAt\n        number\n    }\n}",
+                                "variables": "{\n  \"input\": {\n    \"_id\": 0,\n    \"number\": \"\"\n  }\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "afed0dd7-d5bd-447d-ad57-202c8dacd5c4",
+                    "name": "updateCompany",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation updateCompany ($input: UpdateCompanyArgs!) {\n    updateCompany (input: $input) {\n        _id\n        createdAt\n        name\n    }\n}",
+                                "variables": "{\n  \"input\": {\n    \"_id\": 0,\n    \"name\": \"\"\n  }\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "ae06343f-49d3-4106-a87f-d53d39a66d87",
+                    "name": "updateTransaction",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation updateTransaction ($input: UpdateTransactionArgs!) {\n    updateTransaction (input: $input) {\n        _id\n        createdAt\n        number\n    }\n}",
+                                "variables": "{\n  \"input\": {\n    \"_id\": 0,\n    \"number\": \"\"\n  }\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "668358e7-41d9-432a-a207-c12aa20c9863",
+                    "name": "updateUser",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation updateUser ($input: UpdateUserArgs!) {\n    updateUser (input: $input) {\n        _id\n        company {\n            _id\n            createdAt\n            name\n        }\n        createdAt\n        email\n        name\n        password\n        role\n    }\n}",
+                                "variables": "{\n  \"input\": {\n    \"_id\": 0,\n    \"company\": 0,\n    \"email\": \"\",\n    \"name\": \"\",\n    \"password\": \"\",\n    \"role\": \"\"\n  }\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                }
+            ],
+            "event": [],
+            "name": "mutations"
+        },
+        {
+            "id": "184d261e-a221-45d6-a45f-b9d50f85bbe1",
+            "item": [
+                {
+                    "id": "be0d8a9f-2317-4fc9-9a16-70bb5e666b5f",
+                    "name": "getAccount",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query getAccount ($id: String!) {\n    getAccount (id: $id) {\n        _id\n        createdAt\n        number\n    }\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "9985ada2-fa96-443e-ae1d-c51849c90ea1",
+                    "name": "getCompany",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query getCompany ($id: String!) {\n    getCompany (id: $id) {\n        _id\n        createdAt\n        name\n    }\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "2d753354-dabe-445d-87af-c00d121bcff2",
+                    "name": "getTransaction",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query getTransaction ($id: String!) {\n    getTransaction (id: $id) {\n        _id\n        createdAt\n        number\n    }\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "d3ac5fb4-6618-4606-aa34-f3b89646e2ee",
+                    "name": "getUser",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query getUser ($id: String!) {\n    getUser (id: $id) {\n        _id\n        company {\n            _id\n            createdAt\n            name\n        }\n        createdAt\n        email\n        name\n        password\n        role\n    }\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "8522e926-ea6a-42d2-90f1-e764a0936e2a",
+                    "name": "listAccounts",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query listAccounts ($limit: Float, $number: String, $offset: Float) {\n    listAccounts (limit: $limit, number: $number, offset: $offset) {\n        count\n        data {\n            _id\n            createdAt\n            number\n        }\n    }\n}",
+                                "variables": "{\n  \"limit\": \"\",\n  \"number\": \"\",\n  \"offset\": \"\"\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "50a792d9-9a23-4c57-a0a7-481ce4a76603",
+                    "name": "listCompanies",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query listCompanies ($limit: Float, $name: String, $offset: Float) {\n    listCompanies (limit: $limit, name: $name, offset: $offset) {\n        count\n        data {\n            _id\n            createdAt\n            name\n        }\n    }\n}",
+                                "variables": "{\n  \"limit\": \"\",\n  \"name\": \"\",\n  \"offset\": \"\"\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "6da53fa9-7c88-45ce-91f0-2cc113e665fb",
+                    "name": "listTransactions",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query listTransactions ($limit: Float, $number: String, $offset: Float) {\n    listTransactions (limit: $limit, number: $number, offset: $offset) {\n        count\n        data {\n            _id\n            createdAt\n            number\n        }\n    }\n}",
+                                "variables": "{\n  \"limit\": \"\",\n  \"number\": \"\",\n  \"offset\": \"\"\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                },
+                {
+                    "id": "4dbce611-c1cb-4907-b82e-2a41c556d6fa",
+                    "name": "listUsers",
+                    "request": {
+                        "url": {
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query listUsers ($company_id: ID, $email: String, $limit: Float, $name: String, $offset: Float, $role: UserRoleEnum) {\n    listUsers (company_id: $company_id, email: $email, limit: $limit, name: $name, offset: $offset, role: $role) {\n        count\n        data {\n            _id\n            company {\n                _id\n                createdAt\n                name\n            }\n            createdAt\n            email\n            name\n            password\n            role\n        }\n    }\n}",
+                                "variables": "{\n  \"company_id\": 0,\n  \"email\": \"\",\n  \"limit\": \"\",\n  \"name\": \"\",\n  \"offset\": \"\",\n  \"role\": \"\"\n}"
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": []
+                }
+            ],
+            "event": [],
+            "name": "queries"
+        }
+    ],
+    "event": [],
+    "variable": [
+        {
+            "id": "url",
+            "description": {
+                "content": "URL for the request.",
+                "type": "text/plain"
+            },
+            "type": "any",
+            "value": ""
+        }
+    ],
+    "info": {
+        "_postman_id": "aaba2b35-df4b-440d-857a-ea6205fd7176",
+        "name": "Postman Collection (from GraphQL)",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    }
+}

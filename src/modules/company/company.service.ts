@@ -35,8 +35,7 @@ export const createCompany = async ({
   try {
     const newCompany = new CompanyModel({ name } as Company)
 
-    const createdCompany = await newCompany.save()
-    return createdCompany
+    return newCompany.save()
   } catch (error) {
     return throwError('INTERNAL_ERROR')
   }

@@ -1,5 +1,13 @@
-import { Arg, Args, Mutation, Query, Resolver } from 'type-graphql'
+import {
+  Arg,
+  Args,
+  Mutation,
+  Query,
+  Resolver,
+  UseMiddleware,
+} from 'type-graphql'
 
+import { requireAuth } from '@modules/auth/auth.middleware'
 import {
   Company,
   CreateCompanyArgs,
@@ -15,6 +23,7 @@ import {
 
 @Resolver(() => Company)
 export class CompanyResolver {
+  @UseMiddleware(requireAuth)
   @Query(() => Company)
   async getCompany(
     @Arg('id', () => String) id: string,
@@ -22,6 +31,7 @@ export class CompanyResolver {
     return getCompany(id)
   }
 
+  @UseMiddleware(requireAuth)
   @Query(() => ListCompaniesResponse)
   async listCompanies(
     @Args(() => ListCompaniesArgs) args: ListCompaniesArgs,
@@ -29,6 +39,7 @@ export class CompanyResolver {
     return listCompanies(args)
   }
 
+  @UseMiddleware(requireAuth)
   @Mutation(() => Company)
   async createCompany(
     @Arg('input', () => CreateCompanyArgs) args: CreateCompanyArgs,
@@ -36,6 +47,7 @@ export class CompanyResolver {
     return createCompany(args)
   }
 
+  @UseMiddleware(requireAuth)
   @Mutation(() => Company)
   async updateCompany(
     @Arg('input', () => UpdateCompanyArgs) args: UpdateCompanyArgs,
@@ -43,6 +55,7 @@ export class CompanyResolver {
     return updateCompany(args)
   }
 
+  @UseMiddleware(requireAuth)
   @Mutation(() => Company)
   async deleteCompany(
     @Arg('id', () => String) id: string,

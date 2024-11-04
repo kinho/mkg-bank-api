@@ -11,12 +11,20 @@ import bodyParser from 'koa-bodyparser'
 import { buildSchema } from 'type-graphql'
 
 import MongoDBConnection from '@config/mongodb'
+import { AccountResolver } from '@modules/account'
 import { AuthResolver } from '@modules/auth'
 import { Context } from '@modules/auth'
 import { CompanyResolver } from '@modules/company'
+import { TransactionResolver } from '@modules/transaction'
 import { UserResolver } from '@modules/user'
 
-const resolvers = [UserResolver, CompanyResolver, AuthResolver] as const
+const resolvers = [
+  UserResolver,
+  CompanyResolver,
+  AuthResolver,
+  TransactionResolver,
+  AccountResolver,
+] as const
 
 const { NODE_ENV, PORT: ENV_PORT } = process.env
 const PORT: number = parseInt(`${ENV_PORT}`) || 4000
@@ -30,8 +38,10 @@ const PORT: number = parseInt(`${ENV_PORT}`) || 4000
   const app = new Koa()
   const httpServer = http.createServer(app.callback())
 
+  const schema = await buildSchema({ resolvers, emitSchemaFile: true })
+
   const server = new ApolloServer({
-    schema: await buildSchema({ resolvers }),
+    schema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     formatError: (error) => {
       console.error(error)

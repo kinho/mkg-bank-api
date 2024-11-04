@@ -33,11 +33,13 @@ export class UserResolver {
     return getCompany(user.company.toString())
   }
 
+  @UseMiddleware(requireAuth)
   @Query(() => User)
   async getUser(@Arg('id', () => String) id: string): Promise<User | null> {
     return getUser(id)
   }
 
+  @UseMiddleware(requireAuth)
   @Query(() => ListUsersResponse)
   async listUsers(
     @Args(() => ListUsersArgs) args: ListUsersArgs,

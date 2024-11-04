@@ -11,6 +11,10 @@ export const ERRORS = {
     code: 'FORBIDDEN',
     message: 'You are not allowed to perform this action.',
   },
+  ALREADY_EXISTS: {
+    code: 'ALREADY_EXISTS',
+    message: 'Resource already exists.',
+  },
   NOT_FOUND: {
     code: 'NOT_FOUND',
     message: 'Resource not found.',
