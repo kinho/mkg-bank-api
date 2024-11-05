@@ -44,7 +44,7 @@ export const createTransaction = async (
     const fromAccount = await getAccount(fromAccountNumber, user)
     if (!fromAccount) return throwError('NOT_FOUND')
 
-    const toAccount = await getAccount(toAccountNumber, user)
+    const toAccount = await getAccount(toAccountNumber)
     if (!toAccount) return throwError('NOT_FOUND')
 
     const number = `${randomNumber()}`
@@ -67,10 +67,8 @@ export const createTransaction = async (
 }
 
 export async function calculateBalance(accountNumber: string): Promise<number> {
-  const account = await getAccount(accountNumber)
-  if (!account?._id) throw new Error('NOT_FOUND')
-
-  const accountId = new Types.ObjectId(account._id)
+  const accountId = (await getAccount(accountNumber))?._id
+  if (!accountId) throw new Error('NOT_FOUND')
 
   const result = await TransactionModel.aggregate([
     {
