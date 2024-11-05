@@ -37,15 +37,7 @@ export const listAccounts = async (
 
   if (number) options['number'] = { number }
 
-  const accounts = await AccountModel.find(options).skip(offset).limit(limit)
-
-  const data = await Promise.all(
-    accounts.map(async (account) => ({
-      ...account.toObject(),
-      balance: await calculateBalance(account.number),
-    })),
-  )
-
+  const data = await AccountModel.find(options).skip(offset).limit(limit)
   const count = await AccountModel.countDocuments(options)
 
   return { count, data }

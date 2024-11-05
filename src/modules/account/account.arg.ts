@@ -40,8 +40,8 @@ export class ListAccountsArgs {
 
 @ObjectType()
 export class AccountResponse extends Account {
-  @Field(() => Float)
-  balance!: number
+  @Field(() => Float, { nullable: true })
+  balance?: number
 }
 
 @ObjectType()

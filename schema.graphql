@@ -12,7 +12,7 @@ type Account {
 
 type AccountResponse {
   _id: ID!
-  balance: Float!
+  balance: Float
   createdAt: DateTimeISO
   number: String!
   owner: User!

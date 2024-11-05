@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb'
+import { Types } from 'mongoose'
 
 import { getAccount } from '@modules/account'
 import { UserPayload } from '@modules/auth'
@@ -66,18 +67,38 @@ export const createTransaction = async (
 }
 
 export async function calculateBalance(accountNumber: string): Promise<number> {
-  const accountId = (await getAccount(accountNumber))?._id?.toString()
-  if (!accountId) return throwError('NOT_FOUND')
+  const account = await getAccount(accountNumber)
+  if (!account?._id) throw new Error('NOT_FOUND')
 
-  const transactions = await TransactionModel.find({
-    $or: [{ fromAccount: accountId }, { toAccount: accountId }],
-  })
+  const accountId = new Types.ObjectId(account._id)
 
-  return transactions.reduce(
-    (balance, transaction) =>
-      transaction.fromAccount.toString() === accountId
-        ? balance - transaction.amount
-        : balance + transaction.amount,
-    0,
-  )
+  const result = await TransactionModel.aggregate([
+    {
+      $match: {
+        $or: [{ fromAccount: accountId }, { toAccount: accountId }],
+      },
+    },
+    {
+      $project: {
+        fromAccount: 1,
+        toAccount: 1,
+        amount: 1,
+        adjustment: {
+          $cond: [
+            { $eq: ['$fromAccount', accountId] },
+            { $multiply: ['$amount', -1] },
+            '$amount',
+          ],
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        balance: { $sum: '$adjustment' },
+      },
+    },
+  ])
+
+  return result[0]?.balance ?? 0
 }

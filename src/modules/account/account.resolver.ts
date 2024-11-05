@@ -2,14 +2,17 @@ import {
   Arg,
   Args,
   Ctx,
+  FieldResolver,
   Mutation,
   Query,
   Resolver,
+  Root,
   UseMiddleware,
 } from 'type-graphql'
 
 import {
   Account,
+  AccountResponse,
   ListAccountsArgs,
   ListAccountsResponse,
   UpdateAccountArgs,
@@ -21,9 +24,15 @@ import {
 } from '@modules/account'
 import { UserPayload } from '@modules/auth'
 import { requireAuth } from '@modules/auth/auth.middleware'
+import { calculateBalance } from '@modules/transaction'
 
 @Resolver(() => Account)
 export class AccountResolver {
+  @FieldResolver(() => AccountResponse)
+  async amount(@Root() account: AccountResponse): Promise<number> {
+    return calculateBalance(account.number)
+  }
+
   @UseMiddleware(requireAuth)
   @Query(() => Account)
   async getAccount(
