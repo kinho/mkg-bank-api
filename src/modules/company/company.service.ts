@@ -45,10 +45,10 @@ export const updateCompany = async ({
   _id,
   name,
 }: UpdateCompanyArgs): Promise<Company | null> => {
-  try {
-    const company = await CompanyModel.findById(_id)
-    if (!company) return throwError('NOT_FOUND')
+  const company = await CompanyModel.findById(_id)
+  if (!company) return throwError('NOT_FOUND')
 
+  try {
     if (name) company.name = name
 
     await company.save()
@@ -60,10 +60,10 @@ export const updateCompany = async ({
 }
 
 export const deleteCompany = async (id: string): Promise<Company | null> => {
-  try {
-    const company = await CompanyModel.findById(id)
-    if (!company) return throwError('NOT_FOUND')
+  const company = await CompanyModel.findById(id)
+  if (!company) return throwError('NOT_FOUND')
 
+  try {
     await company.deleteOne()
 
     return company

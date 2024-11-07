@@ -2,7 +2,7 @@
   "name": "mkg-bank-api",
   "description": "MongoD BKoaJS Graphql Bank Example Api Server",
   "author": "Marcus Vinicius Sgorla Franklin (https://github.com/kinho)",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "scripts": {
     "check": "tsc --pretty --noEmit",
     "test": "jest --coverage",

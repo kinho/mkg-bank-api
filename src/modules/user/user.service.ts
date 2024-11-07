@@ -69,13 +69,13 @@ export const updateUser = async (
   { _id, name, email, password, role, company }: UpdateUserArgs,
   loggedUser?: UserPayload,
 ): Promise<User | null> => {
+  const user = await UserModel.findById(_id)
+  if (!user) return throwError('NOT_FOUND')
+
+  if (!loggedUser || notAllowed(loggedUser, user))
+    return throwError('FORBIDDEN')
+
   try {
-    const user = await UserModel.findById(_id)
-    if (!user) return throwError('NOT_FOUND')
-
-    if (!loggedUser || notAllowed(loggedUser, user))
-      return throwError('FORBIDDEN')
-
     if (name) user.name = name
     if (email) user.email = email
     if (role) user.role = role

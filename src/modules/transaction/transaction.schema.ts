@@ -2,8 +2,9 @@ import { Ref, getModelForClass, prop } from '@typegoose/typegoose'
 import { ObjectId } from 'mongodb'
 import { Field, ID, ObjectType } from 'type-graphql'
 
-import { Account } from '@modules/account'
 import { User } from '@modules/user'
+
+import { Account } from '../account/account.schema'
 
 @ObjectType()
 export class Transaction {

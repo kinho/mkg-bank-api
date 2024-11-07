@@ -30,7 +30,7 @@ import { calculateBalance } from '@modules/transaction'
 export class AccountResolver {
   @FieldResolver(() => AccountResponse)
   async amount(@Root() account: AccountResponse): Promise<number> {
-    return calculateBalance(account.number)
+    return calculateBalance(account._id)
   }
 
   @UseMiddleware(requireAuth)

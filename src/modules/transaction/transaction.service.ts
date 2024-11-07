@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb'
-import { Types } from 'mongoose'
 
 import { getAccount } from '@modules/account'
 import { UserPayload } from '@modules/auth'
@@ -40,18 +39,18 @@ export const createTransaction = async (
   { amount, fromAccountNumber, toAccountNumber }: CreateTransactionArgs,
   user: UserPayload,
 ): Promise<Transaction | null> => {
+  const fromAccount = await getAccount(fromAccountNumber, user)
+  if (!fromAccount) return throwError('NOT_FOUND')
+
+  const toAccount = await getAccount(toAccountNumber)
+  if (!toAccount) return throwError('NOT_FOUND')
+
+  const number = `${randomNumber()}`
+
+  const hasExist = await TransactionModel.findOne({ number })
+  if (hasExist) return throwError('ALREADY_EXISTS')
+
   try {
-    const fromAccount = await getAccount(fromAccountNumber, user)
-    if (!fromAccount) return throwError('NOT_FOUND')
-
-    const toAccount = await getAccount(toAccountNumber)
-    if (!toAccount) return throwError('NOT_FOUND')
-
-    const number = `${randomNumber()}`
-
-    const hasExist = await TransactionModel.findOne({ number })
-    if (hasExist) return throwError('ALREADY_EXISTS')
-
     const newTransaction = new TransactionModel({
       number,
       amount,
@@ -66,10 +65,7 @@ export const createTransaction = async (
   }
 }
 
-export async function calculateBalance(accountNumber: string): Promise<number> {
-  const accountId = (await getAccount(accountNumber))?._id
-  if (!accountId) throw new Error('NOT_FOUND')
-
+export async function calculateBalance(accountId: ObjectId): Promise<number> {
   const result = await TransactionModel.aggregate([
     {
       $match: {

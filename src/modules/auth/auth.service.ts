@@ -12,11 +12,11 @@ export const login = async ({
   email,
   password,
 }: LoginArgs): Promise<LoginResponse> => {
+  const user: User | null = await getUserByEmail(email)
+
+  if (!user) return throwError('UNAUTHORIZED')
+
   try {
-    const user: User | null = await getUserByEmail(email)
-
-    if (!user) return throwError('UNAUTHORIZED')
-
     const isValidPassword = await bcrypt.compare(password, user.password)
 
     if (!isValidPassword) return throwError('UNAUTHORIZED')

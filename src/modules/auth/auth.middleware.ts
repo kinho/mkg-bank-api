@@ -1,5 +1,4 @@
 import 'dotenv/config'
-import { GraphQLError } from 'graphql'
 import { verify } from 'jsonwebtoken'
 import { MiddlewareFn } from 'type-graphql'
 
@@ -19,7 +18,7 @@ export const requireAuth: MiddlewareFn<Context> = async ({ context }, next) => {
 
     context.user = payload
   } catch (err) {
-    throwError('INTERNAL_ERROR')
+    throwError('UNAUTHENTICATED')
   }
 
   return next()

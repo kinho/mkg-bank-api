@@ -1,14 +1,12 @@
 import {
   Account,
   AccountModel,
-  AccountResponse,
   ListAccountsArgs,
   ListAccountsResponse,
   UpdateAccountArgs,
 } from '@modules/account'
 import { UserPayload } from '@modules/auth'
 import { throwError } from '@modules/error'
-import { calculateBalance } from '@modules/transaction'
 import { UserRoleEnum, getUser } from '@modules/user'
 import { randomNumber } from '@modules/utils/math.tools'
 
@@ -46,15 +44,15 @@ export const listAccounts = async (
 export const createAccount = async (
   user: UserPayload,
 ): Promise<Account | null> => {
+  const owner = await getUser(user._id)
+  if (!owner) return throwError('NOT_FOUND')
+
+  const number = `${randomNumber()}`
+
+  const hasExist = await AccountModel.findOne({ number })
+  if (hasExist) return throwError('ALREADY_EXISTS')
+
   try {
-    const owner = await getUser(user._id)
-    if (!owner) return throwError('NOT_FOUND')
-
-    const number = `${randomNumber()}`
-
-    const hasExist = await AccountModel.findOne({ number })
-    if (hasExist) return throwError('ALREADY_EXISTS')
-
     const newAccount = new AccountModel({ number, owner } as Account)
 
     return newAccount.save()
@@ -67,12 +65,12 @@ export const updateAccount = async (
   { _id, number }: UpdateAccountArgs,
   user: UserPayload,
 ): Promise<Account | null> => {
+  const account = await AccountModel.findById(_id).populate('owner')
+  if (!account) return throwError('NOT_FOUND')
+
+  if (notAllowed(user, account)) return throwError('FORBIDDEN')
+
   try {
-    const account = await AccountModel.findById(_id).populate('owner')
-    if (!account) return throwError('NOT_FOUND')
-
-    if (notAllowed(user, account)) return throwError('FORBIDDEN')
-
     if (number) account.number = number
 
     await account.save()
@@ -87,12 +85,12 @@ export const deleteAccount = async (
   id: string,
   user: UserPayload,
 ): Promise<Account | null> => {
+  const account = await AccountModel.findById(id)
+  if (!account) return throwError('NOT_FOUND')
+
+  if (notAllowed(user, account)) return throwError('FORBIDDEN')
+
   try {
-    const account = await AccountModel.findById(id)
-    if (!account) return throwError('NOT_FOUND')
-
-    if (notAllowed(user, account)) return throwError('FORBIDDEN')
-
     await account.deleteOne()
 
     return account
@@ -101,9 +99,6 @@ export const deleteAccount = async (
   }
 }
 
-const notAllowed = (loggedUser: UserPayload, account?: Account) => {
-  return (
-    loggedUser?.role !== UserRoleEnum.ADMIN &&
-    loggedUser?._id?.toString() !== account?.owner?._id?.toString()
-  )
-}
+const notAllowed = (loggedUser: UserPayload, account?: Account) =>
+  loggedUser?.role !== UserRoleEnum.ADMIN &&
+  loggedUser?._id?.toString() !== account?.owner?._id?.toString()
