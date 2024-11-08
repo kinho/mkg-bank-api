@@ -2,11 +2,13 @@ import { Ref, getModelForClass, prop } from '@typegoose/typegoose'
 import { ObjectId } from 'mongodb'
 import { Field, ID, ObjectType } from 'type-graphql'
 
-import { Company } from '@modules/company'
 import { UserRoleEnum } from '@modules/user'
 
-@ObjectType()
-export class User {
+import { Company } from '../company'
+import { Node } from '../relay'
+
+@ObjectType({ implements: Node })
+export class User implements Node {
   @Field(() => ID)
   readonly _id!: ObjectId
 

@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 
-import { ERRORS } from './const.error'
+import { ERRORS } from './error.const'
 
 type ErrorCode = keyof typeof ERRORS
 

@@ -3,27 +3,40 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type Account {
+type Account implements Node {
   _id: ID!
-  amount: AccountResponse!
+  amount: Float
   createdAt: DateTimeISO
   number: String!
   owner: User!
 }
 
-type AccountResponse {
-  _id: ID!
-  amount: AccountResponse!
-  balance: Float
-  createdAt: DateTimeISO
-  number: String!
-  owner: User!
+type AccountConnection {
+  edges: [AccountEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Float!
 }
 
-type Company {
+type AccountEdge {
+  cursor: String!
+  node: Account!
+}
+
+type Company implements Node {
   _id: ID!
   createdAt: DateTimeISO
   name: String!
+}
+
+type CompanyConnection {
+  edges: [CompanyEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Float!
+}
+
+type CompanyEdge {
+  cursor: String!
+  node: Company!
 }
 
 input CreateCompanyArgs {
@@ -50,26 +63,6 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTimeISO
 
-type ListAccountsResponse {
-  count: Float!
-  data: [AccountResponse!]!
-}
-
-type ListCompaniesResponse {
-  count: Float!
-  data: [Company!]!
-}
-
-type ListTransactionsResponse {
-  count: Float!
-  data: [Transaction!]!
-}
-
-type ListUsersResponse {
-  count: Float!
-  data: [User!]!
-}
-
 input LoginArgs {
   email: String!
   password: String!
@@ -93,17 +86,28 @@ type Mutation {
   updateUser(input: UpdateUserArgs!): User!
 }
 
+interface Node {
+  _id: ID!
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: String
+}
+
 type Query {
   getAccount(number: String!): Account!
   getCompany(id: String!): Company!
   getUser(id: String!): User!
-  listAccounts(limit: Float = 10, number: String, offset: Float = 0): ListAccountsResponse!
-  listCompanies(limit: Float = 10, name: String, offset: Float = 0): ListCompaniesResponse!
-  listTransactions(limit: Float = 10, number: String, offset: Float = 0): ListTransactionsResponse!
-  listUsers(company_id: ID, email: String, limit: Float, name: String, offset: Float, role: UserRoleEnum): ListUsersResponse!
+  listAccounts(after: String, before: String, first: Float = 10, last: Float, name: String): AccountConnection!
+  listCompanies(after: String, before: String, first: Float = 10, last: Float, name: String): CompanyConnection!
+  listTransactions(after: String, before: String, first: Float = 10, last: Float, number: String): TransactionConnection!
+  listUsers(after: String, before: String, company_id: ID, email: String, first: Float = 10, last: Float, name: String, role: UserRoleEnum): UserConnection!
 }
 
-type Transaction {
+type Transaction implements Node {
   _id: ID!
   amount: Float!
   createdAt: DateTimeISO
@@ -111,6 +115,17 @@ type Transaction {
   fromAccount: Account!
   number: String!
   toAccount: Account!
+}
+
+type TransactionConnection {
+  edges: [TransactionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Float!
+}
+
+type TransactionEdge {
+  cursor: String!
+  node: Transaction!
 }
 
 input UpdateAccountArgs {
@@ -134,7 +149,7 @@ input UpdateUserArgs {
   role: UserRoleEnum
 }
 
-type User {
+type User implements Node {
   _id: ID!
   company: Company
   createdAt: DateTimeISO
@@ -142,6 +157,17 @@ type User {
   name: String!
   password: String!
   role: UserRoleEnum
+}
+
+type UserConnection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Float!
+}
+
+type UserEdge {
+  cursor: String!
+  node: User!
 }
 
 """Roles of the user"""

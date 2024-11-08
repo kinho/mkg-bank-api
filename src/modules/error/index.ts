@@ -1,2 +1,2 @@
-export * from './const.error'
-export * from './throw.error'
+export * from './error.const'
+export * from './error.throw'

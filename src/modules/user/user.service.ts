@@ -1,13 +1,15 @@
 import * as bcrypt from 'bcrypt'
+import { connectionFromArraySlice } from 'graphql-relay'
 
 import { UserPayload } from '@modules/auth'
 import { throwError } from '@modules/error'
+import { calculatePagination, mapToEdges } from '@modules/relay'
 import {
   CreateUserArgs,
   ListUsersArgs,
-  ListUsersResponse,
   UpdateUserArgs,
   User,
+  UserConnection,
   UserModel,
   UserRoleEnum,
 } from '@modules/user'
@@ -22,27 +24,34 @@ export const getUserByEmail = async (email: string): Promise<User | null> => {
   return UserModel.findOne({ email })
 }
 
-export const listUsers = async ({
-  name,
-  email,
-  role,
-  company_id,
-  limit,
-  offset,
-}: ListUsersArgs): Promise<ListUsersResponse> => {
-  limit = limit || 10
-  offset = offset || 0
+export const listUsers = async (
+  args: ListUsersArgs,
+): Promise<UserConnection> => {
+  const { name, email, role, company_id, first, after, last, before } = args
 
-  const options = {}
-  if (name) options['name'] = { $eq: name }
-  if (email) options['email'] = { $eq: email }
-  if (role) options['role'] = role
-  if (company_id) options['company'] = company_id.toString()
+  const filter: Record<string, any> = {}
 
-  const data = await UserModel.find(options).skip(offset).limit(limit)
-  const count = await UserModel.countDocuments(options)
+  if (name) filter['name'] = { $eq: name }
+  if (email) filter['email'] = { $eq: email }
+  if (role) filter['role'] = role
+  if (company_id) filter['company'] = company_id.toString()
 
-  return { count, data }
+  const totalCount = await UserModel.countDocuments(filter)
+
+  const { offset, limit } = calculatePagination(
+    { first, last, after, before },
+    totalCount,
+  )
+
+  const companies = await UserModel.find(filter).skip(offset).limit(limit)
+  const edges = mapToEdges(companies, offset)
+
+  const connection = connectionFromArraySlice(companies, args, {
+    sliceStart: offset,
+    arrayLength: totalCount,
+  })
+
+  return { ...connection, edges, totalCount }
 }
 
 export const createUser = async ({

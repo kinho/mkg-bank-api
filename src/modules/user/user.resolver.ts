@@ -16,9 +16,9 @@ import { Company, getCompany } from '@modules/company'
 import {
   CreateUserArgs,
   ListUsersArgs,
-  ListUsersResponse,
   UpdateUserArgs,
   User,
+  UserConnection,
   createUser,
   getUser,
   listUsers,
@@ -40,10 +40,10 @@ export class UserResolver {
   }
 
   @UseMiddleware(requireAuth)
-  @Query(() => ListUsersResponse)
+  @Query(() => UserConnection)
   async listUsers(
     @Args(() => ListUsersArgs) args: ListUsersArgs,
-  ): Promise<ListUsersResponse> {
+  ): Promise<UserConnection> {
     return listUsers(args)
   }
 

@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb'
 
 import {
   Account,
-  AccountResponse,
+  AccountConnection,
   ListAccountsArgs,
   UpdateAccountArgs,
   createAccount,
@@ -25,6 +25,21 @@ const mockAccount: Account = {
   createdAt: new Date(),
   owner: new ObjectId('64601311c4827118278a2d8b'),
 }
+
+const mockAccounts = [
+  {
+    _id: new ObjectId('64601311c4827118278a2d8b'),
+    number: '123456',
+    createdAt: new Date(),
+    owner: new ObjectId('64601311c4827118278a2d8b'),
+  },
+  {
+    _id: new ObjectId('64601311c4827118278a2d8c'),
+    number: '654321',
+    createdAt: new Date(),
+    owner: new ObjectId('64601311c4827118278a2d8b'),
+  },
+]
 
 const loggedUserMock: UserPayload = {
   _id: '64601311c4827118278a2d8b',
@@ -51,7 +66,7 @@ describe('AccountResolver', () => {
     ;(calculateBalance as jest.Mock).mockResolvedValue(1000)
     const result = await resolver.amount({
       _id: mockAccount._id,
-    } as AccountResponse)
+    } as Account)
     expect(result).toBe(1000)
     expect(calculateBalance).toHaveBeenCalledWith(mockAccount._id)
   })
@@ -72,16 +87,35 @@ describe('AccountResolver', () => {
 
   it('should list accounts with given arguments', async () => {
     const args: ListAccountsArgs = {
-      limit: 10,
-      offset: 0,
+      first: 10,
     }
     ;(listAccounts as jest.Mock).mockResolvedValue({
-      count: 1,
-      data: [mockAccount],
-    })
+      edges: mockAccounts.map((account) => ({
+        node: account,
+        cursor: account._id.toHexString(),
+      })),
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: mockAccounts[0]._id.toHexString(),
+        endCursor: mockAccounts[mockAccounts.length - 1]._id.toHexString(),
+      },
+      totalCount: mockAccounts.length,
+    } as AccountConnection)
     const result = await resolver.listAccounts(loggedUserMock, args)
-    expect(result).toEqual({ count: 1, data: [mockAccount] })
-    expect(listAccounts).toHaveBeenCalledWith(args, loggedUserMock)
+    expect(result).toEqual({
+      edges: mockAccounts.map((account) => ({
+        node: account,
+        cursor: account._id.toHexString(),
+      })),
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: mockAccounts[0]._id.toHexString(),
+        endCursor: mockAccounts[mockAccounts.length - 1]._id.toHexString(),
+      },
+      totalCount: mockAccounts.length,
+    })
   })
 
   it('should create a new account', async () => {

@@ -3,7 +3,7 @@ import { verify } from 'jsonwebtoken'
 import { MiddlewareFn } from 'type-graphql'
 
 import { Context } from '@modules/auth'
-import { throwError } from '@modules/error/throw.error'
+import { throwError } from '@modules/error/error.throw'
 
 const { JWT_TOKEN } = process.env
 

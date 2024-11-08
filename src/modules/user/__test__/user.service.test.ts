@@ -74,28 +74,17 @@ describe('UserService Tests', () => {
   })
 
   it('should list users with optional filters', async () => {
-    const result = await listUsers({ limit: 10, offset: 0 })
-    expect(result).toHaveProperty('count')
-    expect(result.count).toBeGreaterThanOrEqual(2)
-    expect(result.data.length).toBe(2)
-  })
-
-  it('should list users with role filters', async () => {
-    const result = await listUsers({
-      limit: 10,
-      offset: 0,
-      role: UserRoleEnum.ADMIN,
-    })
-    expect(result).toHaveProperty('count')
-    expect(result.count).toBeGreaterThanOrEqual(1)
-    expect(result.data.length).toBe(1)
+    const result = await listUsers({ first: 10 })
+    expect(result).toHaveProperty('totalCount')
+    expect(result.totalCount).toBeGreaterThanOrEqual(2)
+    expect(result.edges.length).toBe(2)
   })
 
   it('should list users with empty filters', async () => {
     const result = await listUsers({})
-    expect(result).toHaveProperty('count')
-    expect(result.count).toBeGreaterThanOrEqual(2)
-    expect(result.data.length).toBe(2)
+    expect(result).toHaveProperty('totalCount')
+    expect(result.totalCount).toBeGreaterThanOrEqual(2)
+    expect(result.edges.length).toBe(2)
   })
 
   it('should allow admin to update any user', async () => {

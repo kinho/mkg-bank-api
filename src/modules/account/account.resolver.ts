@@ -12,9 +12,7 @@ import {
 
 import {
   Account,
-  AccountResponse,
-  ListAccountsArgs,
-  ListAccountsResponse,
+  AccountConnection,
   UpdateAccountArgs,
   createAccount,
   deleteAccount,
@@ -24,12 +22,13 @@ import {
 } from '@modules/account'
 import { UserPayload } from '@modules/auth'
 import { requireAuth } from '@modules/auth/auth.middleware'
+import { ListCompaniesArgs } from '@modules/company'
 import { calculateBalance } from '@modules/transaction'
 
 @Resolver(() => Account)
 export class AccountResolver {
-  @FieldResolver(() => AccountResponse)
-  async amount(@Root() account: AccountResponse): Promise<number> {
+  @FieldResolver(() => Number, { nullable: true })
+  async amount(@Root() account: Account): Promise<number> {
     return calculateBalance(account._id)
   }
 
@@ -43,11 +42,11 @@ export class AccountResolver {
   }
 
   @UseMiddleware(requireAuth)
-  @Query(() => ListAccountsResponse)
+  @Query(() => AccountConnection)
   async listAccounts(
     @Ctx('user') user: UserPayload,
-    @Args(() => ListAccountsArgs) args: ListAccountsArgs,
-  ): Promise<ListAccountsResponse> {
+    @Args(() => ListCompaniesArgs) args: ListCompaniesArgs,
+  ): Promise<AccountConnection> {
     return listAccounts(args, user)
   }
 

@@ -2,7 +2,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 import { connect, disconnect } from 'mongoose'
 
 import { AuthResolver, login } from '@modules/auth'
-import { User, createUser } from '@modules/user'
+import { createUser } from '@modules/user'
 
 jest.mock('@modules/auth/auth.service')
 

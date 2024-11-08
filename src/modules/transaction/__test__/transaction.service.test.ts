@@ -114,11 +114,19 @@ describe('TransactionService Tests', () => {
       },
       user,
     )
+    await createTransaction(
+      {
+        amount: 150,
+        fromAccountNumber: toAccount.number,
+        toAccountNumber: fromAccount.number,
+      },
+      user,
+    )
 
-    const result = await listTransactions({ limit: 10, offset: 0 })
-    expect(result).toHaveProperty('count')
-    expect(result.count).toBeGreaterThanOrEqual(1)
-    expect(result.data.length).toBe(1)
+    const result = await listTransactions({ first: 10 })
+    expect(result).toHaveProperty('totalCount')
+    expect(result.totalCount).toBe(2)
+    expect(result.edges.length).toBe(2)
   })
 
   it('should calculate balance for an account', async () => {

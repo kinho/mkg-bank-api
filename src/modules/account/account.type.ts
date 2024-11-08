@@ -1,7 +1,9 @@
 import { IsMongoId, Max, MaxLength, Min, MinLength } from 'class-validator'
+import { Connection } from 'graphql-relay'
 import { ObjectId } from 'mongodb'
 import { ArgsType, Field, Float, ID, InputType, ObjectType } from 'type-graphql'
 
+import { ConnectionArguments, PageInfo } from '@modules/relay'
 import {
   STRING_MAX_LENGTH,
   STRING_MIN_LENGTH,
@@ -22,33 +24,30 @@ export class UpdateAccountArgs {
 }
 
 @ArgsType()
-export class ListAccountsArgs {
+export class ListAccountsArgs extends ConnectionArguments {
   @MinLength(STRING_MIN_LENGTH)
   @MaxLength(STRING_MAX_LENGTH)
   @Field(() => String, { nullable: true })
   number?: string
-
-  @Min(1)
-  @Max(50)
-  @Field(() => Number, { nullable: true, defaultValue: 10 })
-  limit?: number = 10
-
-  @Min(0)
-  @Field(() => Number, { nullable: true, defaultValue: 0 })
-  offset?: number = 0
 }
 
 @ObjectType()
-export class AccountResponse extends Account {
-  @Field(() => Float, { nullable: true })
-  balance?: number
+export class AccountEdge {
+  @Field(() => Account)
+  node!: Account
+
+  @Field(() => String)
+  cursor!: string
 }
 
 @ObjectType()
-export class ListAccountsResponse {
+export class AccountConnection implements Connection<Account> {
+  @Field(() => [AccountEdge])
+  edges!: AccountEdge[]
+
+  @Field(() => PageInfo)
+  pageInfo!: PageInfo
+
   @Field(() => Number)
-  count!: number
-
-  @Field(() => [AccountResponse])
-  data!: AccountResponse[]
+  totalCount!: number
 }

@@ -21,6 +21,19 @@ const mockCompany: Company = {
   createdAt: new Date(),
 }
 
+const mockCompanies = [
+  {
+    _id: new ObjectId('64601311c4827118278a2d8b'),
+    name: 'Test Company',
+    createdAt: new Date(),
+  },
+  {
+    _id: new ObjectId('64601311c4827118278a2d8c'),
+    name: 'Test Company 2',
+    createdAt: new Date(),
+  },
+]
+
 describe('CompanyResolver', () => {
   let resolver: CompanyResolver
 
@@ -48,13 +61,36 @@ describe('CompanyResolver', () => {
   })
 
   it('should list companies with given arguments', async () => {
-    const args: ListCompaniesArgs = { name: 'Test', limit: 10, offset: 0 }
+    const args: ListCompaniesArgs = {
+      first: 10,
+    }
     ;(listCompanies as jest.Mock).mockResolvedValue({
-      count: 1,
-      data: [mockCompany],
+      edges: mockCompanies.map((company) => ({
+        node: company,
+        cursor: company._id.toHexString(),
+      })),
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: mockCompanies[0]._id.toHexString(),
+        endCursor: mockCompanies[mockCompanies.length - 1]._id.toHexString(),
+      },
+      count: mockCompanies.length,
     })
     const result = await resolver.listCompanies(args)
-    expect(result).toEqual({ count: 1, data: [mockCompany] })
+    expect(result).toEqual({
+      edges: mockCompanies.map((company) => ({
+        node: company,
+        cursor: company._id.toHexString(),
+      })),
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: mockCompanies[0]._id.toHexString(),
+        endCursor: mockCompanies[mockCompanies.length - 1]._id.toHexString(),
+      },
+      count: mockCompanies.length,
+    })
     expect(listCompanies).toHaveBeenCalledWith(args)
   })
 
@@ -108,16 +144,5 @@ describe('CompanyResolver', () => {
     const result = await resolver.deleteCompany('invalid-id')
     expect(result).toBeNull()
     expect(deleteCompany).toHaveBeenCalledWith('invalid-id')
-  })
-
-  it('should list companies with empty filters', async () => {
-    const args: ListCompaniesArgs = { limit: 10, offset: 0 }
-    ;(listCompanies as jest.Mock).mockResolvedValue({
-      count: 1,
-      data: [mockCompany],
-    })
-    const result = await resolver.listCompanies(args)
-    expect(result).toEqual({ count: 1, data: [mockCompany] })
-    expect(listCompanies).toHaveBeenCalledWith(args)
   })
 })

@@ -21,6 +21,7 @@
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.5",
     "graphql": "^16.9.0",
+    "graphql-relay": "^0.10.2",
     "jsonwebtoken": "^9.0.2",
     "koa": "^2.0.0",
     "koa-bodyparser": "^4.4.1",

@@ -1,13 +1,15 @@
+import { connectionFromArraySlice } from 'graphql-relay'
 import { ObjectId } from 'mongodb'
 
 import { getAccount } from '@modules/account'
 import { UserPayload } from '@modules/auth'
 import { throwError } from '@modules/error'
+import { calculatePagination, mapToEdges } from '@modules/relay'
 import {
   CreateTransactionArgs,
   ListTransactionsArgs,
-  ListTransactionsResponse,
   Transaction,
+  TransactionConnection,
   TransactionModel,
 } from '@modules/transaction'
 import { randomNumber } from '@modules/utils/math.tools'
@@ -18,21 +20,33 @@ export const getTransaction = async (
   return TransactionModel.findById(id)
 }
 
-export const listTransactions = async ({
-  number,
-  limit,
-  offset,
-}: ListTransactionsArgs): Promise<ListTransactionsResponse> => {
-  limit = limit || 10
-  offset = offset || 0
+export const listTransactions = async (
+  args: ListTransactionsArgs,
+): Promise<TransactionConnection> => {
+  const { number, first, after, last, before } = args
 
-  const options = {}
-  if (number) options['number'] = { number }
+  const filter: Record<string, any> = {}
 
-  const data = await TransactionModel.find(options).skip(offset).limit(limit)
-  const count = await TransactionModel.countDocuments(options)
+  if (number) filter['number'] = { $eq: number }
 
-  return { count, data }
+  const totalCount = await TransactionModel.countDocuments(filter)
+
+  const { offset, limit } = calculatePagination(
+    { first, last, after, before },
+    totalCount,
+  )
+
+  const companies = await TransactionModel.find(filter)
+    .skip(offset)
+    .limit(limit)
+  const edges = mapToEdges(companies, offset)
+
+  const connection = connectionFromArraySlice(companies, args, {
+    sliceStart: offset,
+    arrayLength: totalCount,
+  })
+
+  return { ...connection, edges, totalCount }
 }
 
 export const createTransaction = async (

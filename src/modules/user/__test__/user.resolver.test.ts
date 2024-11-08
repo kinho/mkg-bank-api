@@ -24,6 +24,23 @@ const mockUser: User = {
   createdAt: new Date(),
 }
 
+const mockUsers = [
+  {
+    _id: new ObjectId('64601311c4827118278a2d8b'),
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+    password: 'hashedPassword',
+    createdAt: new Date(),
+  },
+  {
+    _id: new ObjectId('64601311c4827118278a2d8c'),
+    name: 'Jane Doe',
+    email: 'jane.doe@example.com',
+    password: 'hashedPassword',
+    createdAt: new Date(),
+  },
+]
+
 const loggedUserMock: UserPayload = {
   _id: '64601311c4827118278a2d8b',
   role: UserRoleEnum.ADMIN,
@@ -59,17 +76,35 @@ describe('UserResolver', () => {
 
   it('should list users with given arguments', async () => {
     const args: ListUsersArgs = {
-      name: 'John',
-      email: 'john@example.com',
-      limit: 10,
-      offset: 0,
+      first: 10,
     }
     ;(listUsers as jest.Mock).mockResolvedValue({
-      count: 1,
-      data: [mockUser],
+      edges: mockUsers.map((user) => ({
+        node: user,
+        cursor: user._id.toHexString(),
+      })),
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: mockUsers[0]._id.toHexString(),
+        endCursor: mockUsers[mockUsers.length - 1]._id.toHexString(),
+      },
+      totalCount: mockUsers.length,
     })
     const result = await resolver.listUsers(args)
-    expect(result).toEqual({ count: 1, data: [mockUser] })
+    expect(result).toEqual({
+      edges: mockUsers.map((user) => ({
+        node: user,
+        cursor: user._id.toHexString(),
+      })),
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: mockUsers[0]._id.toHexString(),
+        endCursor: mockUsers[mockUsers.length - 1]._id.toHexString(),
+      },
+      totalCount: mockUsers.length,
+    })
     expect(listUsers).toHaveBeenCalledWith(args)
   })
 

@@ -7,9 +7,11 @@ import {
   Min,
   MinLength,
 } from 'class-validator'
+import { Connection } from 'graphql-relay'
 import { ObjectId } from 'mongodb'
 import { ArgsType, Field, ID, InputType, ObjectType } from 'type-graphql'
 
+import { ConnectionArguments, PageInfo } from '@modules/relay'
 import { User, UserRoleEnum } from '@modules/user'
 import { getEnumInfo } from '@modules/utils/enum.tools'
 import {
@@ -18,50 +20,6 @@ import {
   STRING_MAX_LENGTH,
   STRING_MIN_LENGTH,
 } from '@modules/utils/validation.default'
-
-@ArgsType()
-export class ListUsersArgs {
-  @MinLength(STRING_MIN_LENGTH)
-  @MaxLength(STRING_MAX_LENGTH)
-  @Field(() => String, { nullable: true })
-  name?: string
-
-  @IsEmail()
-  @MinLength(STRING_MIN_LENGTH)
-  @MaxLength(STRING_MAX_LENGTH)
-  @Field(() => String, { nullable: true })
-  email?: string
-
-  // @IsEnum(UserRoleEnum)
-  @IsOptional()
-  @Field(() => UserRoleEnum, {
-    nullable: true,
-    description: getEnumInfo(UserRoleEnum),
-  })
-  role?: UserRoleEnum
-
-  @IsMongoId()
-  @Field(() => ID, { nullable: true })
-  company_id?: ObjectId
-
-  @Min(1)
-  @Max(50)
-  @Field(() => Number, { nullable: true })
-  limit?: number
-
-  @Min(0)
-  @Field(() => Number, { nullable: true })
-  offset?: number
-}
-
-@ObjectType()
-export class ListUsersResponse {
-  @Field(() => Number)
-  count!: number
-
-  @Field(() => [User])
-  data!: User[]
-}
 
 @InputType()
 export class CreateUserArgs
@@ -125,4 +83,51 @@ export class UpdateUserArgs {
     description: getEnumInfo(UserRoleEnum),
   })
   role?: UserRoleEnum
+}
+
+@ArgsType()
+export class ListUsersArgs extends ConnectionArguments {
+  @MinLength(STRING_MIN_LENGTH)
+  @MaxLength(STRING_MAX_LENGTH)
+  @Field(() => String, { nullable: true })
+  name?: string
+
+  @IsEmail()
+  @MinLength(STRING_MIN_LENGTH)
+  @MaxLength(STRING_MAX_LENGTH)
+  @Field(() => String, { nullable: true })
+  email?: string
+
+  // @IsEnum(UserRoleEnum)
+  @IsOptional()
+  @Field(() => UserRoleEnum, {
+    nullable: true,
+    description: getEnumInfo(UserRoleEnum),
+  })
+  role?: UserRoleEnum
+
+  @IsMongoId()
+  @Field(() => ID, { nullable: true })
+  company_id?: ObjectId
+}
+
+@ObjectType()
+export class UserEdge {
+  @Field(() => User)
+  node!: User
+
+  @Field(() => String)
+  cursor!: string
+}
+
+@ObjectType()
+export class UserConnection implements Connection<User> {
+  @Field(() => [UserEdge])
+  edges!: UserEdge[]
+
+  @Field(() => PageInfo)
+  pageInfo!: PageInfo
+
+  @Field(() => Number)
+  totalCount!: number
 }

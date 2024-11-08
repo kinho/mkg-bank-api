@@ -13,8 +13,8 @@ import { requireAuth } from '@modules/auth/auth.middleware'
 import {
   CreateTransactionArgs,
   ListTransactionsArgs,
-  ListTransactionsResponse,
   Transaction,
+  TransactionConnection,
   createTransaction,
   listTransactions,
 } from '@modules/transaction'
@@ -22,10 +22,10 @@ import {
 @Resolver(() => Transaction)
 export class TransactionResolver {
   @UseMiddleware(requireAuth)
-  @Query(() => ListTransactionsResponse)
+  @Query(() => TransactionConnection)
   async listTransactions(
     @Args(() => ListTransactionsArgs) args: ListTransactionsArgs,
-  ): Promise<ListTransactionsResponse> {
+  ): Promise<TransactionConnection> {
     return listTransactions(args)
   }
 

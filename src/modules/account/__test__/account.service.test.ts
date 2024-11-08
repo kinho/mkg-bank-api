@@ -51,6 +51,14 @@ describe('AccountService Tests', () => {
     await AccountModel.deleteMany({ _id: { $nin: [account._id] } })
   })
 
+  it('should create a new account', async () => {
+    const newAccount = await createAccount(regularUser)
+
+    expect(newAccount).not.toBeNull()
+    expect(newAccount).toHaveProperty('_id')
+    expect(newAccount?.owner?._id?.toString()).toBe(regularUser._id.toString())
+  })
+
   it('should retrieve an account by number', async () => {
     const foundAccount = await getAccount(account.number, regularUser)
 
@@ -64,32 +72,35 @@ describe('AccountService Tests', () => {
     ).rejects.toThrowError(GraphQLError)
   })
 
-  it('should list accounts with default filters', async () => {
-    const result = await listAccounts({ limit: 10, offset: 0 }, adminUser)
+  it('should list accounts with optional filters', async () => {
+    await createAccount(regularUser)
+    await createAccount(regularUser)
 
-    expect(result).toHaveProperty('count')
-    expect(result.count).toBeGreaterThanOrEqual(1)
-    expect(result.data.length).toBe(1)
+    const result = await listAccounts({ first: 10 }, adminUser)
+    expect(result).toHaveProperty('totalCount')
+    expect(result.totalCount).toBeGreaterThanOrEqual(3)
+    expect(result.edges.length).toBe(3)
+  })
+
+  it('should list accounts with empty filters', async () => {
+    await createAccount(regularUser)
+    await createAccount(regularUser)
+
+    const result = await listAccounts({}, adminUser)
+    expect(result).toHaveProperty('totalCount')
+    expect(result.totalCount).toBeGreaterThanOrEqual(3)
+    expect(result.edges.length).toBe(3)
   })
 
   it('should only list accounts owned by the user if not an admin', async () => {
-    const otherAccount = await AccountModel.create({
-      number: '0987654321',
-      owner: adminUser._id,
-    })
+    await createAccount(regularUser)
+    await createAccount(regularUser)
+    await createAccount(adminUser)
 
-    const result = await listAccounts({ limit: 10, offset: 0 }, regularUser)
+    const result = await listAccounts({ first: 10 }, regularUser)
 
-    expect(result.count).toBe(1)
-    expect(result.data[0].number).toBe(account.number)
-  })
-
-  it('should create a new account', async () => {
-    const newAccount = await createAccount(regularUser)
-
-    expect(newAccount).not.toBeNull()
-    expect(newAccount).toHaveProperty('_id')
-    expect(newAccount?.owner?._id?.toString()).toBe(regularUser._id.toString())
+    expect(result.totalCount).toBeGreaterThanOrEqual(3)
+    expect(result.edges.length).toBe(3)
   })
 
   it('should throw an error when account with number already exists', async () => {

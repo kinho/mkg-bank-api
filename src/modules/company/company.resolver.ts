@@ -10,9 +10,9 @@ import {
 import { requireAuth } from '@modules/auth/auth.middleware'
 import {
   Company,
+  CompanyConnection,
   CreateCompanyArgs,
   ListCompaniesArgs,
-  ListCompaniesResponse,
   UpdateCompanyArgs,
   createCompany,
   deleteCompany,
@@ -32,10 +32,10 @@ export class CompanyResolver {
   }
 
   @UseMiddleware(requireAuth)
-  @Query(() => ListCompaniesResponse)
+  @Query(() => CompanyConnection)
   async listCompanies(
     @Args(() => ListCompaniesArgs) args: ListCompaniesArgs,
-  ): Promise<ListCompaniesResponse> {
+  ): Promise<CompanyConnection> {
     return listCompanies(args)
   }
 

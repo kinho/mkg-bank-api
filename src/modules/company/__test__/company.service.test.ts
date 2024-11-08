@@ -55,10 +55,10 @@ describe('CompanyService Tests', () => {
     await createCompany({ name: 'Company A' })
     await createCompany({ name: 'Company B' })
 
-    const result = await listCompanies({ limit: 10, offset: 0 })
-    expect(result).toHaveProperty('count')
-    expect(result.count).toBeGreaterThanOrEqual(2)
-    expect(result.data.length).toBe(2)
+    const result = await listCompanies({ first: 10 })
+    expect(result).toHaveProperty('totalCount')
+    expect(result.totalCount).toBeGreaterThanOrEqual(2)
+    expect(result.edges.length).toBe(2)
   })
 
   it('should list companies with empty filters', async () => {
@@ -66,9 +66,9 @@ describe('CompanyService Tests', () => {
     await createCompany({ name: 'Company B' })
 
     const result = await listCompanies({})
-    expect(result).toHaveProperty('count')
-    expect(result.count).toBeGreaterThanOrEqual(2)
-    expect(result.data.length).toBe(2)
+    expect(result).toHaveProperty('totalCount')
+    expect(result.totalCount).toBeGreaterThanOrEqual(2)
+    expect(result.edges.length).toBe(2)
   })
 
   it('should update an existing company', async () => {

@@ -23,6 +23,27 @@ const mockTransaction: Transaction = {
   createdBy: new ObjectId('64601311c4827118278a2d8e'),
 }
 
+const mockTransactions = [
+  {
+    _id: new ObjectId('64601311c4827118278a2d8b'),
+    number: '1234567890',
+    amount: 100,
+    fromAccount: new ObjectId('64601311c4827118278a2d8c'),
+    toAccount: new ObjectId('64601311c4827118278a2d8d'),
+    createdAt: new Date(),
+    createdBy: new ObjectId('64601311c4827118278a2d8e'),
+  },
+  {
+    _id: new ObjectId('64601311c4827118278a2d8f'),
+    number: '9876543210',
+    amount: 50,
+    fromAccount: new ObjectId('64601311c4827118278a2d8d'),
+    toAccount: new ObjectId('64601311c4827118278a2d8c'),
+    createdAt: new Date(),
+    createdBy: new ObjectId('64601311c4827118278a2d8e'),
+  },
+]
+
 const loggedUserMock: UserPayload = {
   _id: '64601311c4827118278a2d8b',
   role: UserRoleEnum.DEFAULT,
@@ -42,16 +63,38 @@ describe('TransactionResolver', () => {
 
   it('should list transactions with given arguments', async () => {
     const args: ListTransactionsArgs = {
-      limit: 10,
-      offset: 0,
+      first: 10,
     }
     ;(listTransactions as jest.Mock).mockResolvedValue({
-      count: 1,
-      data: [mockTransaction],
+      edges: mockTransactions.map((transaction) => ({
+        node: transaction,
+        cursor: transaction._id.toHexString(),
+      })),
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: mockTransactions[0]._id.toHexString(),
+        endCursor:
+          mockTransactions[mockTransactions.length - 1]._id.toHexString(),
+      },
+      totalCount: mockTransactions.length,
     })
 
     const result = await resolver.listTransactions(args)
-    expect(result).toEqual({ count: 1, data: [mockTransaction] })
+    expect(result).toEqual({
+      edges: mockTransactions.map((transaction) => ({
+        node: transaction,
+        cursor: transaction._id.toHexString(),
+      })),
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: mockTransactions[0]._id.toHexString(),
+        endCursor:
+          mockTransactions[mockTransactions.length - 1]._id.toHexString(),
+      },
+      totalCount: mockTransactions.length,
+    })
     expect(listTransactions).toHaveBeenCalledWith(args)
   })
 

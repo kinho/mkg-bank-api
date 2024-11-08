@@ -1,12 +1,15 @@
+import { connectionFromArraySlice } from 'graphql-relay'
+
 import {
   Account,
+  AccountConnection,
   AccountModel,
   ListAccountsArgs,
-  ListAccountsResponse,
   UpdateAccountArgs,
 } from '@modules/account'
 import { UserPayload } from '@modules/auth'
 import { throwError } from '@modules/error'
+import { calculatePagination, mapToEdges } from '@modules/relay'
 import { UserRoleEnum, getUser } from '@modules/user'
 import { randomNumber } from '@modules/utils/math.tools'
 
@@ -23,22 +26,33 @@ export const getAccount = async (
 }
 
 export const listAccounts = async (
-  { number, limit, offset }: ListAccountsArgs,
+  args: ListAccountsArgs,
   user: UserPayload,
-): Promise<ListAccountsResponse> => {
-  limit = limit || 10
-  offset = offset || 0
+): Promise<AccountConnection> => {
+  const { number, first, after, last, before } = args
 
-  const options = {}
+  const filter: Record<string, any> = {}
 
-  if (user.role !== UserRoleEnum.ADMIN) options['owner'] = user._id
+  if (user.role !== UserRoleEnum.ADMIN) filter['owner'] = user._id
 
-  if (number) options['number'] = { number }
+  if (number) filter['number'] = { $eq: number }
 
-  const data = await AccountModel.find(options).skip(offset).limit(limit)
-  const count = await AccountModel.countDocuments(options)
+  const totalCount = await AccountModel.countDocuments(filter)
 
-  return { count, data }
+  const { offset, limit } = calculatePagination(
+    { first, last, after, before },
+    totalCount,
+  )
+
+  const companies = await AccountModel.find(filter).skip(offset).limit(limit)
+  const edges = mapToEdges(companies, offset)
+
+  const connection = connectionFromArraySlice(companies, args, {
+    sliceStart: offset,
+    arrayLength: totalCount,
+  })
+
+  return { ...connection, edges, totalCount }
 }
 
 export const createAccount = async (

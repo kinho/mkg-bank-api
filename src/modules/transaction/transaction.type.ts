@@ -1,14 +1,8 @@
-import {
-  IsDecimal,
-  IsMongoId,
-  Max,
-  MaxLength,
-  Min,
-  MinLength,
-} from 'class-validator'
-import { ObjectId } from 'mongodb'
+import { IsDecimal, MaxLength, Min, MinLength } from 'class-validator'
+import { Connection } from 'graphql-relay'
 import { ArgsType, Field, ID, InputType, ObjectType } from 'type-graphql'
 
+import { ConnectionArguments, PageInfo } from '@modules/relay'
 import { Transaction } from '@modules/transaction'
 import {
   STRING_MAX_LENGTH,
@@ -34,27 +28,30 @@ export class CreateTransactionArgs {
 }
 
 @ArgsType()
-export class ListTransactionsArgs {
+export class ListTransactionsArgs extends ConnectionArguments {
   @MinLength(STRING_MIN_LENGTH)
   @MaxLength(STRING_MAX_LENGTH)
   @Field(() => String, { nullable: true })
   number?: string
-
-  @Min(1)
-  @Max(50)
-  @Field(() => Number, { nullable: true, defaultValue: 10 })
-  limit?: number = 10
-
-  @Min(0)
-  @Field(() => Number, { nullable: true, defaultValue: 0 })
-  offset?: number = 0
 }
 
 @ObjectType()
-export class ListTransactionsResponse {
-  @Field(() => Number)
-  count!: number
+export class TransactionEdge {
+  @Field(() => Transaction)
+  node!: Transaction
 
-  @Field(() => [Transaction])
-  data!: Transaction[]
+  @Field(() => String)
+  cursor!: string
+}
+
+@ObjectType()
+export class TransactionConnection implements Connection<Transaction> {
+  @Field(() => [TransactionEdge])
+  edges!: TransactionEdge[]
+
+  @Field(() => PageInfo)
+  pageInfo!: PageInfo
+
+  @Field(() => Number)
+  totalCount!: number
 }

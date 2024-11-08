@@ -1,32 +1,44 @@
+import { connectionFromArraySlice } from 'graphql-relay'
+
 import {
   Company,
+  CompanyConnection,
   CompanyModel,
   CreateCompanyArgs,
   ListCompaniesArgs,
-  ListCompaniesResponse,
   UpdateCompanyArgs,
 } from '@modules/company'
 import { throwError } from '@modules/error'
+import { calculatePagination, mapToEdges } from '@modules/relay'
 
 export const getCompany = async (id: string): Promise<Company | null> => {
   return CompanyModel.findById(id)
 }
 
-export const listCompanies = async ({
-  name,
-  limit,
-  offset,
-}: ListCompaniesArgs): Promise<ListCompaniesResponse> => {
-  limit = limit || 10
-  offset = offset || 0
+export const listCompanies = async (
+  args: ListCompaniesArgs,
+): Promise<CompanyConnection> => {
+  const { name, first, after, last, before } = args
 
-  const options = {}
-  if (name) options['name'] = { $eq: name }
+  const filter: Record<string, any> = {}
+  if (name) filter['name'] = { $eq: name }
 
-  const data = await CompanyModel.find(options).skip(offset).limit(limit)
-  const count = await CompanyModel.countDocuments(options)
+  const totalCount = await CompanyModel.countDocuments(filter)
 
-  return { count, data }
+  const { offset, limit } = calculatePagination(
+    { first, last, after, before },
+    totalCount,
+  )
+
+  const companies = await CompanyModel.find(filter).skip(offset).limit(limit)
+  const edges = mapToEdges(companies, offset)
+
+  const connection = connectionFromArraySlice(companies, args, {
+    sliceStart: offset,
+    arrayLength: totalCount,
+  })
+
+  return { ...connection, edges, totalCount }
 }
 
 export const createCompany = async ({
