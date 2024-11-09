@@ -1,10 +1,10 @@
 {
     "item": [
         {
-            "id": "0d8e10da-56a4-4643-83f5-d611b51dde4a",
+            "id": "68ddc687-e8b3-497b-a64b-51860235d121",
             "item": [
                 {
-                    "id": "97fb955b-453b-490f-a8d4-3e8542cb9970",
+                    "id": "f0177c20-4c33-4dd6-84ec-32b778b6a74e",
                     "name": "createAccount",
                     "request": {
                         "url": {
@@ -27,7 +27,7 @@
                     "event": []
                 },
                 {
-                    "id": "c947e23b-5d03-4b5a-a4a3-f84a982854ce",
+                    "id": "ee697def-b334-4584-81b7-727736fdf85a",
                     "name": "createCompany",
                     "request": {
                         "url": {
@@ -50,7 +50,7 @@
                     "event": []
                 },
                 {
-                    "id": "007b8e58-03f1-47e2-8a95-68b0bb5c602a",
+                    "id": "db020b59-2345-43a1-95e4-25ce137bae2b",
                     "name": "createTransaction",
                     "request": {
                         "url": {
@@ -73,7 +73,7 @@
                     "event": []
                 },
                 {
-                    "id": "b26de621-61eb-473f-8e6b-e85b0ed99745",
+                    "id": "41cfd24e-650e-48cb-bd56-5e324a89da77",
                     "name": "createUser",
                     "request": {
                         "url": {
@@ -96,7 +96,7 @@
                     "event": []
                 },
                 {
-                    "id": "290e36b3-3dc3-4d1f-9b30-9425d166a986",
+                    "id": "004a9909-4976-46d3-9dd5-41a4f137d165",
                     "name": "deleteAccount",
                     "request": {
                         "url": {
@@ -119,7 +119,7 @@
                     "event": []
                 },
                 {
-                    "id": "5a0ef678-d00b-4e9f-9202-054928af2bc4",
+                    "id": "27006be9-c036-4d71-9472-c43ce6d95a04",
                     "name": "deleteCompany",
                     "request": {
                         "url": {
@@ -142,7 +142,7 @@
                     "event": []
                 },
                 {
-                    "id": "155e5bb0-a515-406f-bc42-bad0c7d2c0f4",
+                    "id": "d9651248-5d24-4535-ba88-263077339018",
                     "name": "login",
                     "request": {
                         "url": {
@@ -165,30 +165,7 @@
                     "event": []
                 },
                 {
-                    "id": "0d447400-300d-4436-b093-b03857b6d453",
-                    "name": "updateAccount",
-                    "request": {
-                        "url": {
-                            "host": [
-                                "{{url}}"
-                            ],
-                            "query": [],
-                            "variable": []
-                        },
-                        "method": "POST",
-                        "body": {
-                            "mode": "graphql",
-                            "graphql": {
-                                "query": "mutation updateAccount ($input: UpdateAccountArgs!) {\n    updateAccount (input: $input) {\n        _id\n        amount\n        createdAt\n        number\n        owner {\n            _id\n            company {\n                _id\n                createdAt\n                name\n            }\n            createdAt\n            email\n            name\n            password\n            role\n        }\n    }\n}",
-                                "variables": "{\n  \"input\": {\n    \"_id\": 0,\n    \"number\": \"\"\n  }\n}"
-                            }
-                        }
-                    },
-                    "response": [],
-                    "event": []
-                },
-                {
-                    "id": "27583c69-4b53-48a5-9664-253b068962ee",
+                    "id": "0623cdc4-ee54-488e-a31f-3cea05cf1e74",
                     "name": "updateCompany",
                     "request": {
                         "url": {
@@ -211,7 +188,7 @@
                     "event": []
                 },
                 {
-                    "id": "a39b5c2f-92a8-4fb8-bd2e-a4a411cc7575",
+                    "id": "977e2fd8-2b8d-43c7-a8d5-6f9b2ef7fd60",
                     "name": "updateUser",
                     "request": {
                         "url": {
@@ -238,10 +215,10 @@
             "name": "mutations"
         },
         {
-            "id": "e14f6912-d97c-42f5-869c-98308d35439f",
+            "id": "46cd9f7a-dc3a-4139-9ec2-d844678acc5e",
             "item": [
                 {
-                    "id": "884d9021-ccb3-4fb5-a0de-5d237435e0ef",
+                    "id": "e23efff2-ed8b-40f7-9fa7-210073705be6",
                     "name": "getAccount",
                     "request": {
                         "url": {
@@ -264,7 +241,7 @@
                     "event": []
                 },
                 {
-                    "id": "80c0d627-efed-40fa-8994-cb8fe50fde73",
+                    "id": "6a29304c-6128-457d-8b25-1a5aeeedb3a9",
                     "name": "getCompany",
                     "request": {
                         "url": {
@@ -287,7 +264,7 @@
                     "event": []
                 },
                 {
-                    "id": "33b4862b-39b5-4c14-8396-abe4743ebec3",
+                    "id": "d26e299c-3070-4ce7-89d5-90e35ba91ae9",
                     "name": "getUser",
                     "request": {
                         "url": {
@@ -310,7 +287,7 @@
                     "event": []
                 },
                 {
-                    "id": "20068525-a260-4e99-b9e5-814a3937897b",
+                    "id": "c1c01e91-91f2-4767-9ed8-0af014718d11",
                     "name": "listAccounts",
                     "request": {
                         "url": {
@@ -333,7 +310,7 @@
                     "event": []
                 },
                 {
-                    "id": "f33c8a58-3510-41b8-9b48-c69cf43c26f1",
+                    "id": "c022c692-7920-43ea-9240-c2d314b582b8",
                     "name": "listCompanies",
                     "request": {
                         "url": {
@@ -356,7 +333,7 @@
                     "event": []
                 },
                 {
-                    "id": "82baa538-4949-4f44-8b88-7f23292a7006",
+                    "id": "3426ad9e-bbc7-4b42-91ca-a8cf92e1f3ab",
                     "name": "listTransactions",
                     "request": {
                         "url": {
@@ -379,7 +356,7 @@
                     "event": []
                 },
                 {
-                    "id": "04b55463-a331-47b3-a487-27fb4c89fcc2",
+                    "id": "d084a797-1b40-4d9a-9a3c-9d670d440656",
                     "name": "listUsers",
                     "request": {
                         "url": {
@@ -419,7 +396,7 @@
         }
     ],
     "info": {
-        "_postman_id": "2cc67b93-9ed6-400d-be61-bebf6e9a8afd",
+        "_postman_id": "caae9220-0de3-47a8-bb27-c8e1121c7083",
         "name": "Postman Collection (from GraphQL)",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     }
