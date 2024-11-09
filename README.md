@@ -22,11 +22,18 @@ Ensure the following are installed and configured:
 
 ## **Running the Project**
 
-After cloning the repository, run the following command on project directory to start the Docker environment in the background:
+After cloning the repository, in your project directory:
 
-```bash
-$ docker compose up -dV
-```
+1. **Create Environment File:**
+   - Make a copy of the `.env.example` file and rename it to `.env`.
+   - Update the values in the `.env` file with your actual configuration settings.
+
+2. **Start Docker Environment:**
+   - Run the following command to start the Docker environment in the background:
+
+     ```bash
+     $ docker compose up -dV
+     ```
 
 ## **Exploring the API**
 
