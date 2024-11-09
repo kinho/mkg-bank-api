@@ -8,7 +8,6 @@ import {
   deleteAccount,
   getAccount,
   listAccounts,
-  updateAccount,
 } from '@modules/account'
 import { createUser } from '@modules/user'
 import { UserRoleEnum } from '@modules/user/user.enum'
@@ -111,25 +110,6 @@ describe('AccountService Tests', () => {
 
     await expect(
       createAccount({ ...regularUser, number: 'unique-number' }),
-    ).rejects.toThrowError(GraphQLError)
-  })
-
-  it('should update an account for authorized user', async () => {
-    const updatedAccount = await updateAccount(
-      { _id: account._id, number: '1111111111' },
-      regularUser,
-    )
-
-    expect(updatedAccount).not.toBeNull()
-    expect(updatedAccount?.number).toBe('1111111111')
-  })
-
-  it('should throw an error if unauthorized user tries to update account', async () => {
-    await expect(
-      updateAccount(
-        { _id: account._id, number: '2222222222' },
-        { ...adminUser, role: UserRoleEnum.DEFAULT },
-      ),
     ).rejects.toThrowError(GraphQLError)
   })
 

@@ -12,7 +12,6 @@ import {
   TransactionConnection,
   TransactionModel,
 } from '@modules/transaction'
-import { randomNumber } from '@modules/utils/math.tools'
 
 export const getTransaction = async (
   id: string,
@@ -59,14 +58,8 @@ export const createTransaction = async (
   const toAccount = await getAccount(toAccountNumber)
   if (!toAccount) return throwError('NOT_FOUND')
 
-  const number = `${randomNumber()}`
-
-  const hasExist = await TransactionModel.findOne({ number })
-  if (hasExist) return throwError('ALREADY_EXISTS')
-
   try {
     const newTransaction = new TransactionModel({
-      number,
       amount,
       fromAccount: fromAccount._id,
       toAccount: toAccount._id,

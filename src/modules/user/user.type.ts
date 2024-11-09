@@ -2,9 +2,7 @@ import {
   IsEmail,
   IsMongoId,
   IsOptional,
-  Max,
   MaxLength,
-  Min,
   MinLength,
 } from 'class-validator'
 import { Connection } from 'graphql-relay'
@@ -13,7 +11,6 @@ import { ArgsType, Field, ID, InputType, ObjectType } from 'type-graphql'
 
 import { ConnectionArguments, PageInfo } from '@modules/relay'
 import { User, UserRoleEnum } from '@modules/user'
-import { getEnumInfo } from '@modules/utils/enum.tools'
 import {
   PASSWORD_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
@@ -41,12 +38,8 @@ export class CreateUserArgs
   @Field(() => String)
   password!: string
 
-  // @IsEnum(UserRoleEnum)
   @IsOptional()
-  @Field(() => UserRoleEnum, {
-    nullable: true,
-    description: getEnumInfo(UserRoleEnum),
-  })
+  @Field(() => UserRoleEnum, { nullable: true })
   role?: UserRoleEnum
 }
 
@@ -76,12 +69,8 @@ export class UpdateUserArgs {
   @Field(() => ID, { nullable: true })
   company?: ObjectId | null
 
-  // @IsEnum(UserRoleEnum)
   @IsOptional()
-  @Field(() => UserRoleEnum, {
-    nullable: true,
-    description: getEnumInfo(UserRoleEnum),
-  })
+  @Field(() => UserRoleEnum, { nullable: true })
   role?: UserRoleEnum
 }
 
@@ -98,12 +87,8 @@ export class ListUsersArgs extends ConnectionArguments {
   @Field(() => String, { nullable: true })
   email?: string
 
-  // @IsEnum(UserRoleEnum)
   @IsOptional()
-  @Field(() => UserRoleEnum, {
-    nullable: true,
-    description: getEnumInfo(UserRoleEnum),
-  })
+  @Field(() => UserRoleEnum, { nullable: true })
   role?: UserRoleEnum
 
   @IsMongoId()

@@ -3,21 +3,19 @@ import { ObjectId } from 'mongodb'
 import {
   Account,
   AccountConnection,
+  AccountResolver,
   ListAccountsArgs,
-  UpdateAccountArgs,
   createAccount,
   deleteAccount,
   getAccount,
   listAccounts,
-  updateAccount,
 } from '@modules/account'
-import { AccountResolver } from '@modules/account/account.resolver'
-import { UserPayload } from '@modules/auth'
-import { calculateBalance } from '@modules/transaction'
-import { UserRoleEnum } from '@modules/user'
+import { UserPayload } from '@modules/auth/auth.context'
+import { calculateBalance } from '@modules/transaction/transaction.service'
+import { UserRoleEnum } from '@modules/user/user.enum'
 
 jest.mock('@modules/account/account.service')
-jest.mock('@modules/transaction')
+jest.mock('@modules/transaction/transaction.service')
 
 const mockAccount: Account = {
   _id: new ObjectId('64601311c4827118278a2d8b'),
@@ -57,7 +55,6 @@ describe('AccountResolver', () => {
     ;(getAccount as jest.Mock).mockReset()
     ;(listAccounts as jest.Mock).mockReset()
     ;(createAccount as jest.Mock).mockReset()
-    ;(updateAccount as jest.Mock).mockReset()
     ;(deleteAccount as jest.Mock).mockReset()
     ;(calculateBalance as jest.Mock).mockReset()
   })
@@ -89,7 +86,7 @@ describe('AccountResolver', () => {
     const args: ListAccountsArgs = {
       first: 10,
     }
-    ;(listAccounts as jest.Mock).mockResolvedValue({
+    const mockAccountConnection: AccountConnection = {
       edges: mockAccounts.map((account) => ({
         node: account,
         cursor: account._id.toHexString(),
@@ -101,21 +98,11 @@ describe('AccountResolver', () => {
         endCursor: mockAccounts[mockAccounts.length - 1]._id.toHexString(),
       },
       totalCount: mockAccounts.length,
-    } as AccountConnection)
+    }
+    ;(listAccounts as jest.Mock).mockResolvedValue(mockAccountConnection)
     const result = await resolver.listAccounts(loggedUserMock, args)
-    expect(result).toEqual({
-      edges: mockAccounts.map((account) => ({
-        node: account,
-        cursor: account._id.toHexString(),
-      })),
-      pageInfo: {
-        hasNextPage: false,
-        hasPreviousPage: false,
-        startCursor: mockAccounts[0]._id.toHexString(),
-        endCursor: mockAccounts[mockAccounts.length - 1]._id.toHexString(),
-      },
-      totalCount: mockAccounts.length,
-    })
+    expect(result).toEqual(mockAccountConnection)
+    expect(listAccounts).toHaveBeenCalledWith(args, loggedUserMock)
   })
 
   it('should create a new account', async () => {
@@ -132,39 +119,15 @@ describe('AccountResolver', () => {
     expect(createAccount).toHaveBeenCalledWith(loggedUserMock)
   })
 
-  it('should update an existing account', async () => {
-    const args: UpdateAccountArgs = {
-      _id: new ObjectId('64601311c4827118278a2d8b'),
-      number: '654321',
-    }
-
-    ;(updateAccount as jest.Mock).mockResolvedValue(mockAccount)
-    const result = await resolver.updateAccount(loggedUserMock, args)
-    expect(result).toEqual(mockAccount)
-    expect(updateAccount).toHaveBeenCalledWith(args, loggedUserMock)
-  })
-
-  it('should return null if account update fails', async () => {
-    const args: UpdateAccountArgs = {
-      _id: new ObjectId(),
-      number: '654322',
-    }
-
-    ;(updateAccount as jest.Mock).mockResolvedValue(null)
-    const result = await resolver.updateAccount(loggedUserMock, args)
-    expect(result).toBeNull()
-    expect(updateAccount).toHaveBeenCalledWith(args, loggedUserMock)
-  })
-
   it('should delete an account by id', async () => {
     ;(deleteAccount as jest.Mock).mockResolvedValue(mockAccount)
     const result = await resolver.deleteAccount(
       loggedUserMock,
-      '64601311c4827118278a2d8b',
+      mockAccount._id.toString(),
     )
     expect(result).toEqual(mockAccount)
     expect(deleteAccount).toHaveBeenCalledWith(
-      '64601311c4827118278a2d8b',
+      mockAccount._id.toString(),
       loggedUserMock,
     )
   })

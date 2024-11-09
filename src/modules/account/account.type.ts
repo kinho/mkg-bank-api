@@ -11,18 +11,6 @@ import {
 
 import { Account } from './account.schema'
 
-@InputType()
-export class UpdateAccountArgs {
-  @IsMongoId()
-  @Field(() => ID)
-  _id!: ObjectId
-
-  @MinLength(STRING_MIN_LENGTH)
-  @MaxLength(STRING_MAX_LENGTH)
-  @Field(() => String, { nullable: true })
-  number?: string | null
-}
-
 @ArgsType()
 export class ListAccountsArgs extends ConnectionArguments {
   @MinLength(STRING_MIN_LENGTH)

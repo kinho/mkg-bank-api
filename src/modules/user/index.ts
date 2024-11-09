@@ -1,5 +1,5 @@
-export * from './user.type'
 export * from './user.enum'
 export * from './user.resolver'
 export * from './user.schema'
 export * from './user.service'
+export * from './user.type'

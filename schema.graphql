@@ -7,7 +7,7 @@ type Account implements Node {
   _id: ID!
   amount: Float
   createdAt: DateTimeISO
-  number: String!
+  number: String
   owner: User!
 }
 
@@ -53,8 +53,6 @@ input CreateUserArgs {
   email: String!
   name: String!
   password: String!
-
-  """"""
   role: UserRoleEnum
 }
 
@@ -81,7 +79,6 @@ type Mutation {
   deleteAccount(id: String!): Account!
   deleteCompany(id: String!): Company!
   login(input: LoginArgs!): LoginResponse!
-  updateAccount(input: UpdateAccountArgs!): Account!
   updateCompany(input: UpdateCompanyArgs!): Company!
   updateUser(input: UpdateUserArgs!): User!
 }
@@ -113,7 +110,7 @@ type Transaction implements Node {
   createdAt: DateTimeISO
   createdBy: User!
   fromAccount: Account!
-  number: String!
+  number: String
   toAccount: Account!
 }
 
@@ -128,11 +125,6 @@ type TransactionEdge {
   node: Transaction!
 }
 
-input UpdateAccountArgs {
-  _id: ID!
-  number: String
-}
-
 input UpdateCompanyArgs {
   _id: ID!
   name: String
@@ -144,8 +136,6 @@ input UpdateUserArgs {
   email: String
   name: String
   password: String
-
-  """"""
   role: UserRoleEnum
 }
 

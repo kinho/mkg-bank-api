@@ -5,13 +5,11 @@ import {
   AccountConnection,
   AccountModel,
   ListAccountsArgs,
-  UpdateAccountArgs,
 } from '@modules/account'
 import { UserPayload } from '@modules/auth'
 import { throwError } from '@modules/error'
 import { calculatePagination, mapToEdges } from '@modules/relay'
 import { UserRoleEnum, getUser } from '@modules/user'
-import { randomNumber } from '@modules/utils/math.tools'
 
 export const getAccount = async (
   number: string,
@@ -61,35 +59,10 @@ export const createAccount = async (
   const owner = await getUser(user._id)
   if (!owner) return throwError('NOT_FOUND')
 
-  const number = `${randomNumber()}`
-
-  const hasExist = await AccountModel.findOne({ number })
-  if (hasExist) return throwError('ALREADY_EXISTS')
-
   try {
-    const newAccount = new AccountModel({ number, owner } as Account)
+    const newAccount = new AccountModel({ owner } as Account)
 
     return newAccount.save()
-  } catch (error) {
-    return throwError('INTERNAL_ERROR')
-  }
-}
-
-export const updateAccount = async (
-  { _id, number }: UpdateAccountArgs,
-  user: UserPayload,
-): Promise<Account | null> => {
-  const account = await AccountModel.findById(_id).populate('owner')
-  if (!account) return throwError('NOT_FOUND')
-
-  if (notAllowed(user, account)) return throwError('FORBIDDEN')
-
-  try {
-    if (number) account.number = number
-
-    await account.save()
-
-    return account
   } catch (error) {
     return throwError('INTERNAL_ERROR')
   }

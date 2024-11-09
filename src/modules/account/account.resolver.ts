@@ -13,12 +13,10 @@ import {
 import {
   Account,
   AccountConnection,
-  UpdateAccountArgs,
   createAccount,
   deleteAccount,
   getAccount,
   listAccounts,
-  updateAccount,
 } from '@modules/account'
 import { UserPayload } from '@modules/auth'
 import { requireAuth } from '@modules/auth/auth.middleware'
@@ -54,15 +52,6 @@ export class AccountResolver {
   @Mutation(() => Account)
   async createAccount(@Ctx('user') user: UserPayload): Promise<Account | null> {
     return createAccount(user)
-  }
-
-  @UseMiddleware(requireAuth)
-  @Mutation(() => Account)
-  async updateAccount(
-    @Ctx('user') user: UserPayload,
-    @Arg('input', () => UpdateAccountArgs) args: UpdateAccountArgs,
-  ): Promise<Account | null> {
-    return updateAccount(args, user)
   }
 
   @UseMiddleware(requireAuth)
