@@ -16,9 +16,9 @@ This project is a sample bank API built with **MongoDB**, **KoaJS**, and **Graph
 
 Ensure the following are installed and configured:
 
-- [**Git**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git){:target="_blank"} and [**SSH Key**](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent){:target="_blank"}
-- [**Docker**](https://docs.docker.com/engine/install){:target="_blank"}
-- [**Node.js**](https://nodejs.org/){:target="_blank"} (for running locally)
+- [**Git**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [**SSH Key**](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+- [**Docker**](https://docs.docker.com/engine/install)
+- [**Node.js**](https://nodejs.org/) (for running locally)
 
 ## **Running the Project**
 
@@ -37,9 +37,9 @@ After cloning the repository, in your project directory:
 
 ## **Exploring the API**
 
-#### **Apollo Explorer**: [**http://localhost:4000/graphql**](http://localhost:4000/graphql){:target="_blank"}
+#### **Apollo Explorer**: **http://localhost:4000/graphql**
 
-Use the [**Apollo Explorer**](https://www.apollographql.com/tutorials/lift-off-part1/06-apollo-explorer){:target="_blank"} at the above link to test queries and mutations, visualize the schema, and explore the data.
+Use the [**Apollo Explorer**](https://www.apollographql.com/tutorials/lift-off-part1/06-apollo-explorer) at the above link to test queries and mutations, visualize the schema, and explore the data.
 
 ## **Testing**
 
