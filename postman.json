@@ -1,10 +1,10 @@
 {
     "item": [
         {
-            "id": "275f6687-c1d5-4131-8962-585ebb39a33e",
+            "id": "0d8e10da-56a4-4643-83f5-d611b51dde4a",
             "item": [
                 {
-                    "id": "88c5bb9b-7626-4e2b-8d3a-504197b0b8ae",
+                    "id": "97fb955b-453b-490f-a8d4-3e8542cb9970",
                     "name": "createAccount",
                     "request": {
                         "url": {
@@ -18,7 +18,7 @@
                         "body": {
                             "mode": "graphql",
                             "graphql": {
-                                "query": "mutation createAccount {\n    createAccount {\n        _id\n        amount {\n            _id\n            balance\n            createdAt\n            number\n            owner {\n                _id\n                company {\n                    _id\n                    createdAt\n                    name\n                }\n                createdAt\n                email\n                name\n                password\n                role\n            }\n        }\n        createdAt\n        number\n        owner {\n            _id\n            company {\n                _id\n                createdAt\n                name\n            }\n            createdAt\n            email\n            name\n            password\n            role\n        }\n    }\n}",
+                                "query": "mutation createAccount {\n    createAccount {\n        _id\n        amount\n        createdAt\n        number\n        owner {\n            _id\n            company {\n                _id\n                createdAt\n                name\n            }\n            createdAt\n            email\n            name\n            password\n            role\n        }\n    }\n}",
                                 "variables": "{}"
                             }
                         }
@@ -27,7 +27,7 @@
                     "event": []
                 },
                 {
-                    "id": "19599a37-b097-4a4a-82a7-2ef3634104e5",
+                    "id": "c947e23b-5d03-4b5a-a4a3-f84a982854ce",
                     "name": "createCompany",
                     "request": {
                         "url": {
@@ -50,7 +50,7 @@
                     "event": []
                 },
                 {
-                    "id": "9626e39a-06b5-4e2b-9965-2e9946ea38d9",
+                    "id": "007b8e58-03f1-47e2-8a95-68b0bb5c602a",
                     "name": "createTransaction",
                     "request": {
                         "url": {
@@ -64,7 +64,7 @@
                         "body": {
                             "mode": "graphql",
                             "graphql": {
-                                "query": "mutation createTransaction ($input: CreateTransactionArgs!) {\n    createTransaction (input: $input) {\n        _id\n        amount\n        createdAt\n        createdBy {\n            _id\n            company {\n                _id\n                createdAt\n                name\n            }\n            createdAt\n            email\n            name\n            password\n            role\n        }\n        fromAccount {\n            _id\n            amount {\n                _id\n                balance\n                createdAt\n                number\n                owner {\n                    _id\n                    company {\n                        _id\n                        createdAt\n                        name\n                    }\n                    createdAt\n                    email\n                    name\n                    password\n                    role\n                }\n            }\n            createdAt\n            number\n            owner {\n                _id\n                company {\n                    _id\n                    createdAt\n                    name\n                }\n                createdAt\n                email\n                name\n                password\n                role\n            }\n        }\n        number\n        toAccount {\n            _id\n            amount {\n                _id\n                balance\n                createdAt\n                number\n                owner {\n                    _id\n                    company {\n                        _id\n                        createdAt\n                        name\n                    }\n                    createdAt\n                    email\n                    name\n                    password\n                    role\n                }\n            }\n            createdAt\n            number\n            owner {\n                _id\n                company {\n                    _id\n                    createdAt\n                    name\n                }\n                createdAt\n                email\n                name\n                password\n                role\n            }\n        }\n    }\n}",
+                                "query": "mutation createTransaction ($input: CreateTransactionArgs!) {\n    createTransaction (input: $input) {\n        _id\n        amount\n        createdAt\n        createdBy {\n            _id\n            company {\n                _id\n                createdAt\n                name\n            }\n            createdAt\n            email\n            name\n            password\n            role\n        }\n        fromAccount {\n            _id\n            amount\n            createdAt\n            number\n            owner {\n                _id\n                company {\n                    _id\n                    createdAt\n                    name\n                }\n                createdAt\n                email\n                name\n                password\n                role\n            }\n        }\n        number\n        toAccount {\n            _id\n            amount\n            createdAt\n            number\n            owner {\n                _id\n                company {\n                    _id\n                    createdAt\n                    name\n                }\n                createdAt\n                email\n                name\n                password\n                role\n            }\n        }\n    }\n}",
                                 "variables": "{\n  \"input\": {\n    \"amount\": \"\",\n    \"fromAccountNumber\": \"\",\n    \"toAccountNumber\": \"\"\n  }\n}"
                             }
                         }
@@ -73,7 +73,7 @@
                     "event": []
                 },
                 {
-                    "id": "f75efeda-8cd7-462a-9d25-c25fbe8d27b9",
+                    "id": "b26de621-61eb-473f-8e6b-e85b0ed99745",
                     "name": "createUser",
                     "request": {
                         "url": {
@@ -96,7 +96,7 @@
                     "event": []
                 },
                 {
-                    "id": "36b21a98-2165-490d-ac30-54ce32985cf3",
+                    "id": "290e36b3-3dc3-4d1f-9b30-9425d166a986",
                     "name": "deleteAccount",
                     "request": {
                         "url": {
@@ -110,7 +110,7 @@
                         "body": {
                             "mode": "graphql",
                             "graphql": {
-                                "query": "mutation deleteAccount ($id: String!) {\n    deleteAccount (id: $id) {\n        _id\n        amount {\n            _id\n            balance\n            createdAt\n            number\n            owner {\n                _id\n                company {\n                    _id\n                    createdAt\n                    name\n                }\n                createdAt\n                email\n                name\n                password\n                role\n            }\n        }\n        createdAt\n        number\n        owner {\n            _id\n            company {\n                _id\n                createdAt\n                name\n            }\n            createdAt\n            email\n            name\n            password\n            role\n        }\n    }\n}",
+                                "query": "mutation deleteAccount ($id: String!) {\n    deleteAccount (id: $id) {\n        _id\n        amount\n        createdAt\n        number\n        owner {\n            _id\n            company {\n                _id\n                createdAt\n                name\n            }\n            createdAt\n            email\n            name\n            password\n            role\n        }\n    }\n}",
                                 "variables": "{\n  \"id\": \"\"\n}"
                             }
                         }
@@ -119,7 +119,7 @@
                     "event": []
                 },
                 {
-                    "id": "469e3f1f-c9b8-4fc3-b42e-a97f6d99b45c",
+                    "id": "5a0ef678-d00b-4e9f-9202-054928af2bc4",
                     "name": "deleteCompany",
                     "request": {
                         "url": {
@@ -142,7 +142,7 @@
                     "event": []
                 },
                 {
-                    "id": "82d14b85-9045-4bdd-956b-9115fde233cc",
+                    "id": "155e5bb0-a515-406f-bc42-bad0c7d2c0f4",
                     "name": "login",
                     "request": {
                         "url": {
@@ -165,7 +165,7 @@
                     "event": []
                 },
                 {
-                    "id": "2d377b61-4dbe-48cb-afe5-995a9f92159d",
+                    "id": "0d447400-300d-4436-b093-b03857b6d453",
                     "name": "updateAccount",
                     "request": {
                         "url": {
@@ -179,7 +179,7 @@
                         "body": {
                             "mode": "graphql",
                             "graphql": {
-                                "query": "mutation updateAccount ($input: UpdateAccountArgs!) {\n    updateAccount (input: $input) {\n        _id\n        amount {\n            _id\n            balance\n            createdAt\n            number\n            owner {\n                _id\n                company {\n                    _id\n                    createdAt\n                    name\n                }\n                createdAt\n                email\n                name\n                password\n                role\n            }\n        }\n        createdAt\n        number\n        owner {\n            _id\n            company {\n                _id\n                createdAt\n                name\n            }\n            createdAt\n            email\n            name\n            password\n            role\n        }\n    }\n}",
+                                "query": "mutation updateAccount ($input: UpdateAccountArgs!) {\n    updateAccount (input: $input) {\n        _id\n        amount\n        createdAt\n        number\n        owner {\n            _id\n            company {\n                _id\n                createdAt\n                name\n            }\n            createdAt\n            email\n            name\n            password\n            role\n        }\n    }\n}",
                                 "variables": "{\n  \"input\": {\n    \"_id\": 0,\n    \"number\": \"\"\n  }\n}"
                             }
                         }
@@ -188,7 +188,7 @@
                     "event": []
                 },
                 {
-                    "id": "c06918d4-6a76-419e-9ff1-8e360a8c0999",
+                    "id": "27583c69-4b53-48a5-9664-253b068962ee",
                     "name": "updateCompany",
                     "request": {
                         "url": {
@@ -211,7 +211,7 @@
                     "event": []
                 },
                 {
-                    "id": "1598a5f3-7dd9-4d1a-8a1c-9e3a5440d8bb",
+                    "id": "a39b5c2f-92a8-4fb8-bd2e-a4a411cc7575",
                     "name": "updateUser",
                     "request": {
                         "url": {
@@ -238,10 +238,10 @@
             "name": "mutations"
         },
         {
-            "id": "fa994bc9-3d2a-4b5a-a826-58323dc74d91",
+            "id": "e14f6912-d97c-42f5-869c-98308d35439f",
             "item": [
                 {
-                    "id": "e71dba3c-8b18-47d8-b9e9-262882029d3d",
+                    "id": "884d9021-ccb3-4fb5-a0de-5d237435e0ef",
                     "name": "getAccount",
                     "request": {
                         "url": {
@@ -255,7 +255,7 @@
                         "body": {
                             "mode": "graphql",
                             "graphql": {
-                                "query": "query getAccount ($number: String!) {\n    getAccount (number: $number) {\n        _id\n        amount {\n            _id\n            balance\n            createdAt\n            number\n            owner {\n                _id\n                company {\n                    _id\n                    createdAt\n                    name\n                }\n                createdAt\n                email\n                name\n                password\n                role\n            }\n        }\n        createdAt\n        number\n        owner {\n            _id\n            company {\n                _id\n                createdAt\n                name\n            }\n            createdAt\n            email\n            name\n            password\n            role\n        }\n    }\n}",
+                                "query": "query getAccount ($number: String!) {\n    getAccount (number: $number) {\n        _id\n        amount\n        createdAt\n        number\n        owner {\n            _id\n            company {\n                _id\n                createdAt\n                name\n            }\n            createdAt\n            email\n            name\n            password\n            role\n        }\n    }\n}",
                                 "variables": "{\n  \"number\": \"\"\n}"
                             }
                         }
@@ -264,7 +264,7 @@
                     "event": []
                 },
                 {
-                    "id": "2edcfdf0-84ef-4216-81a9-9b967b24b456",
+                    "id": "80c0d627-efed-40fa-8994-cb8fe50fde73",
                     "name": "getCompany",
                     "request": {
                         "url": {
@@ -287,7 +287,7 @@
                     "event": []
                 },
                 {
-                    "id": "272d765d-d0e3-42bf-9722-5ac80ec2c0ed",
+                    "id": "33b4862b-39b5-4c14-8396-abe4743ebec3",
                     "name": "getUser",
                     "request": {
                         "url": {
@@ -310,7 +310,7 @@
                     "event": []
                 },
                 {
-                    "id": "9dee9071-e6a3-435b-9943-f3e1f9cbf70b",
+                    "id": "20068525-a260-4e99-b9e5-814a3937897b",
                     "name": "listAccounts",
                     "request": {
                         "url": {
@@ -324,8 +324,8 @@
                         "body": {
                             "mode": "graphql",
                             "graphql": {
-                                "query": "query listAccounts ($limit: Float, $number: String, $offset: Float) {\n    listAccounts (limit: $limit, number: $number, offset: $offset) {\n        count\n        data {\n            _id\n            amount {\n                _id\n                balance\n                createdAt\n                number\n                owner {\n                    _id\n                    company {\n                        _id\n                        createdAt\n                        name\n                    }\n                    createdAt\n                    email\n                    name\n                    password\n                    role\n                }\n            }\n            balance\n            createdAt\n            number\n            owner {\n                _id\n                company {\n                    _id\n                    createdAt\n                    name\n                }\n                createdAt\n                email\n                name\n                password\n                role\n            }\n        }\n    }\n}",
-                                "variables": "{\n  \"limit\": \"\",\n  \"number\": \"\",\n  \"offset\": \"\"\n}"
+                                "query": "query listAccounts ($after: String, $before: String, $first: Float, $last: Float, $name: String) {\n    listAccounts (after: $after, before: $before, first: $first, last: $last, name: $name) {\n        edges {\n            cursor\n            node {\n                _id\n                amount\n                createdAt\n                number\n                owner {\n                    _id\n                    company {\n                        _id\n                        createdAt\n                        name\n                    }\n                    createdAt\n                    email\n                    name\n                    password\n                    role\n                }\n            }\n        }\n        pageInfo {\n            endCursor\n            hasNextPage\n            hasPreviousPage\n            startCursor\n        }\n        totalCount\n    }\n}",
+                                "variables": "{\n  \"after\": \"\",\n  \"before\": \"\",\n  \"first\": \"\",\n  \"last\": \"\",\n  \"name\": \"\"\n}"
                             }
                         }
                     },
@@ -333,7 +333,7 @@
                     "event": []
                 },
                 {
-                    "id": "8dd2a9b0-d02e-48f3-b9d9-0403c551c618",
+                    "id": "f33c8a58-3510-41b8-9b48-c69cf43c26f1",
                     "name": "listCompanies",
                     "request": {
                         "url": {
@@ -347,8 +347,8 @@
                         "body": {
                             "mode": "graphql",
                             "graphql": {
-                                "query": "query listCompanies ($limit: Float, $name: String, $offset: Float) {\n    listCompanies (limit: $limit, name: $name, offset: $offset) {\n        count\n        data {\n            _id\n            createdAt\n            name\n        }\n    }\n}",
-                                "variables": "{\n  \"limit\": \"\",\n  \"name\": \"\",\n  \"offset\": \"\"\n}"
+                                "query": "query listCompanies ($after: String, $before: String, $first: Float, $last: Float, $name: String) {\n    listCompanies (after: $after, before: $before, first: $first, last: $last, name: $name) {\n        edges {\n            cursor\n            node {\n                _id\n                createdAt\n                name\n            }\n        }\n        pageInfo {\n            endCursor\n            hasNextPage\n            hasPreviousPage\n            startCursor\n        }\n        totalCount\n    }\n}",
+                                "variables": "{\n  \"after\": \"\",\n  \"before\": \"\",\n  \"first\": \"\",\n  \"last\": \"\",\n  \"name\": \"\"\n}"
                             }
                         }
                     },
@@ -356,7 +356,7 @@
                     "event": []
                 },
                 {
-                    "id": "6e81a83d-005e-4b5c-9d1c-2a71531450d2",
+                    "id": "82baa538-4949-4f44-8b88-7f23292a7006",
                     "name": "listTransactions",
                     "request": {
                         "url": {
@@ -370,8 +370,8 @@
                         "body": {
                             "mode": "graphql",
                             "graphql": {
-                                "query": "query listTransactions ($limit: Float, $number: String, $offset: Float) {\n    listTransactions (limit: $limit, number: $number, offset: $offset) {\n        count\n        data {\n            _id\n            amount\n            createdAt\n            createdBy {\n                _id\n                company {\n                    _id\n                    createdAt\n                    name\n                }\n                createdAt\n                email\n                name\n                password\n                role\n            }\n            fromAccount {\n                _id\n                amount {\n                    _id\n                    balance\n                    createdAt\n                    number\n                    owner {\n                        _id\n                        company {\n                            _id\n                            createdAt\n                            name\n                        }\n                        createdAt\n                        email\n                        name\n                        password\n                        role\n                    }\n                }\n                createdAt\n                number\n                owner {\n                    _id\n                    company {\n                        _id\n                        createdAt\n                        name\n                    }\n                    createdAt\n                    email\n                    name\n                    password\n                    role\n                }\n            }\n            number\n            toAccount {\n                _id\n                amount {\n                    _id\n                    balance\n                    createdAt\n                    number\n                    owner {\n                        _id\n                        company {\n                            _id\n                            createdAt\n                            name\n                        }\n                        createdAt\n                        email\n                        name\n                        password\n                        role\n                    }\n                }\n                createdAt\n                number\n                owner {\n                    _id\n                    company {\n                        _id\n                        createdAt\n                        name\n                    }\n                    createdAt\n                    email\n                    name\n                    password\n                    role\n                }\n            }\n        }\n    }\n}",
-                                "variables": "{\n  \"limit\": \"\",\n  \"number\": \"\",\n  \"offset\": \"\"\n}"
+                                "query": "query listTransactions ($after: String, $before: String, $first: Float, $last: Float, $number: String) {\n    listTransactions (after: $after, before: $before, first: $first, last: $last, number: $number) {\n        edges {\n            cursor\n            node {\n                _id\n                amount\n                createdAt\n                createdBy {\n                    _id\n                    company {\n                        _id\n                        createdAt\n                        name\n                    }\n                    createdAt\n                    email\n                    name\n                    password\n                    role\n                }\n                fromAccount {\n                    _id\n                    amount\n                    createdAt\n                    number\n                    owner {\n                        _id\n                        company {\n                            _id\n                            createdAt\n                            name\n                        }\n                        createdAt\n                        email\n                        name\n                        password\n                        role\n                    }\n                }\n                number\n                toAccount {\n                    _id\n                    amount\n                    createdAt\n                    number\n                    owner {\n                        _id\n                        company {\n                            _id\n                            createdAt\n                            name\n                        }\n                        createdAt\n                        email\n                        name\n                        password\n                        role\n                    }\n                }\n            }\n        }\n        pageInfo {\n            endCursor\n            hasNextPage\n            hasPreviousPage\n            startCursor\n        }\n        totalCount\n    }\n}",
+                                "variables": "{\n  \"after\": \"\",\n  \"before\": \"\",\n  \"first\": \"\",\n  \"last\": \"\",\n  \"number\": \"\"\n}"
                             }
                         }
                     },
@@ -379,7 +379,7 @@
                     "event": []
                 },
                 {
-                    "id": "33267fc7-3b45-45e6-8090-d68ae1e1e18e",
+                    "id": "04b55463-a331-47b3-a487-27fb4c89fcc2",
                     "name": "listUsers",
                     "request": {
                         "url": {
@@ -393,8 +393,8 @@
                         "body": {
                             "mode": "graphql",
                             "graphql": {
-                                "query": "query listUsers ($company_id: ID, $email: String, $limit: Float, $name: String, $offset: Float, $role: UserRoleEnum) {\n    listUsers (company_id: $company_id, email: $email, limit: $limit, name: $name, offset: $offset, role: $role) {\n        count\n        data {\n            _id\n            company {\n                _id\n                createdAt\n                name\n            }\n            createdAt\n            email\n            name\n            password\n            role\n        }\n    }\n}",
-                                "variables": "{\n  \"company_id\": 0,\n  \"email\": \"\",\n  \"limit\": \"\",\n  \"name\": \"\",\n  \"offset\": \"\",\n  \"role\": \"\"\n}"
+                                "query": "query listUsers ($after: String, $before: String, $company_id: ID, $email: String, $first: Float, $last: Float, $name: String, $role: UserRoleEnum) {\n    listUsers (after: $after, before: $before, company_id: $company_id, email: $email, first: $first, last: $last, name: $name, role: $role) {\n        edges {\n            cursor\n            node {\n                _id\n                company {\n                    _id\n                    createdAt\n                    name\n                }\n                createdAt\n                email\n                name\n                password\n                role\n            }\n        }\n        pageInfo {\n            endCursor\n            hasNextPage\n            hasPreviousPage\n            startCursor\n        }\n        totalCount\n    }\n}",
+                                "variables": "{\n  \"after\": \"\",\n  \"before\": \"\",\n  \"company_id\": 0,\n  \"email\": \"\",\n  \"first\": \"\",\n  \"last\": \"\",\n  \"name\": \"\",\n  \"role\": \"\"\n}"
                             }
                         }
                     },
@@ -419,7 +419,7 @@
         }
     ],
     "info": {
-        "_postman_id": "7da1e487-d02f-4c19-a9f5-8efc71290a83",
+        "_postman_id": "2cc67b93-9ed6-400d-be61-bebf6e9a8afd",
         "name": "Postman Collection (from GraphQL)",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     }
