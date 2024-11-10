@@ -1,5 +1,4 @@
 import { getModelForClass, prop } from '@typegoose/typegoose'
-import { Field } from 'type-graphql'
 
 class Counter {
   @prop({ type: String, required: true, unique: true })
