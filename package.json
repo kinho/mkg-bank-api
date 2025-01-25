@@ -1,6 +1,6 @@
 {
   "name": "mkg-bank-api",
-  "description": "MongoD BKoaJS Graphql Bank Example Api Server",
+  "description": "MongoDB KoaJS Graphql Bank Example Api Server",
   "author": "Marcus Vinicius Sgorla Franklin (https://github.com/kinho)",
   "version": "1.0.2",
   "scripts": {
